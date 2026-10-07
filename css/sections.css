@@ -1,0 +1,357 @@
+/* Historia */
+.story-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
+}
+
+.story-card p { margin-bottom: 1rem; color: var(--text-primary); }
+.story-card p:last-child { margin-bottom: 0; }
+.story-card .highlight { color: var(--neon-yellow); font-weight: 600; }
+.story-card .danger { color: var(--neon-red); font-weight: 600; }
+.story-card .success { color: var(--neon-green); font-weight: 600; }
+
+.incident-box {
+  background: rgba(255,45,85,0.08);
+  border: 1px solid rgba(255,45,85,0.4);
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin: 1rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--neon-red);
+}
+
+.incident-box .incident-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.story-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Protagonistas */
+.characters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.char-card {
+  --accent: var(--neon-cyan);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glow);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.char-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.char-card.is-leader { border-color: var(--accent); }
+
+.leader-tag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  background: var(--accent);
+  color: var(--bg-dark);
+  font-weight: 700;
+}
+
+.char-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin: 0 auto 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  border: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 30%, transparent);
+  transition: transform 0.4s;
+}
+.char-card:hover .char-avatar { transform: rotate(-8deg) scale(1.08); }
+
+.char-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--accent);
+}
+
+.char-role {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.char-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin-bottom: 1.2rem;
+}
+
+.char-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+.skill-tag {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--accent);
+  padding: 0.25rem 0.7rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+
+.char-perk {
+  border-top: 1px dashed color-mix(in srgb, var(--accent) 35%, transparent);
+  padding-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.char-perk strong { color: var(--accent); }
+
+/* Evidencias */
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+.evidence-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.evidence-card:hover {
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 20px rgba(255,214,10,0.15);
+  transform: translateY(-3px);
+}
+
+.evidence-card.locked { opacity: 0.5; cursor: not-allowed; }
+.evidence-card.locked:hover { transform: none; box-shadow: none; border-color: var(--border-glow); }
+
+.evidence-card.unlocked {
+  border-color: var(--neon-yellow);
+  animation: glowPulse 2s infinite;
+}
+
+.evidence-card.revealed {
+  border-color: var(--neon-green);
+  background: rgba(0,255,136,0.05);
+  cursor: default;
+}
+.evidence-card.revealed:hover { transform: none; }
+.evidence-card.just-revealed { animation: flipIn 0.6s ease; }
+
+@keyframes flipIn {
+  from { transform: perspective(800px) rotateY(90deg); opacity: 0.3; }
+  to { transform: perspective(800px) rotateY(0); opacity: 1; }
+}
+
+.evidence-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+
+.evidence-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--neon-yellow);
+  margin-bottom: 0.5rem;
+}
+
+.evidence-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.evidence-revealed-text {
+  font-size: 0.88rem;
+  color: var(--neon-green);
+  line-height: 1.6;
+  margin-top: 0.5rem;
+  display: none;
+}
+
+.evidence-card.revealed .evidence-revealed-text { display: block; }
+.evidence-card.revealed .evidence-desc { display: none; }
+
+.evidence-scan {
+  display: none;
+  margin-top: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--neon-yellow);
+}
+.evidence-scan-bar {
+  height: 4px;
+  background: rgba(255,214,10,0.15);
+  border-radius: 50px;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
+}
+.evidence-scan-bar::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--neon-yellow);
+  animation: scanFill 1.2s linear forwards;
+}
+.evidence-card.scanning .evidence-scan { display: block; }
+.evidence-card.scanning .evidence-desc { display: none; }
+
+@keyframes scanFill { to { width: 100%; } }
+
+.lock-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.2rem;
+}
+
+/* Riesgos */
+.risks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.risk-item {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.risk-item:hover { box-shadow: 0 5px 25px rgba(0,245,255,0.1); }
+.risk-item[hidden] { display: none; }
+
+.risk-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.risk-level {
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  min-width: 80px;
+  text-align: center;
+}
+
+.risk-level.critical { background: rgba(255,45,85,0.2); border: 1px solid var(--neon-red); color: var(--neon-red); }
+.risk-level.high { background: rgba(255,159,10,0.2); border: 1px solid var(--neon-orange); color: var(--neon-orange); }
+.risk-level.medium { background: rgba(255,214,10,0.15); border: 1px solid var(--neon-yellow); color: var(--neon-yellow); }
+.risk-level.low { background: rgba(0,255,136,0.1); border: 1px solid var(--neon-green); color: var(--neon-green); }
+
+.risk-name {
+  font-weight: 600;
+  font-size: 1rem;
+  flex: 1;
+}
+
+.risk-read {
+  font-size: 0.85rem;
+  color: var(--neon-green);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.risk-item.read .risk-read { opacity: 1; }
+
+.risk-arrow {
+  color: var(--text-muted);
+  transition: transform 0.3s;
+  font-size: 1.2rem;
+}
+
+.risk-body {
+  display: none;
+  padding: 0 1.5rem 1.2rem;
+  border-top: 1px solid var(--border-glow);
+}
+
+.risk-item.open .risk-arrow { transform: rotate(90deg); }
+.risk-item.open .risk-body { display: block; animation: fadeInUp 0.3s ease; }
+
+.risk-body p {
+  color: var(--text-primary);
+  line-height: 1.7;
+  font-size: 0.93rem;
+  padding-top: 1rem;
+}
+.risk-label-bad { color: var(--neon-red); }
+.risk-label-good { color: var(--neon-green); }
+
+@media (max-width: 600px) {
+  .characters-grid,
+  .evidence-grid { grid-template-columns: 1fr; }
+  .risk-header { flex-wrap: wrap; gap: 0.6rem; padding: 1rem; }
+  .risk-name { flex-basis: 100%; order: 3; }
+  .risk-arrow { margin-left: auto; }
+  .progress-row { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+  .filter-row .progress-label { margin-left: 0; width: 100%; }
+}

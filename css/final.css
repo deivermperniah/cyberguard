@@ -1,0 +1,114 @@
+#screen-final {
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.final-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-glow);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 680px;
+  width: 100%;
+  box-shadow: 0 0 60px rgba(0,255,136,0.1);
+  animation: popIn 0.5s ease;
+}
+
+.final-emoji { font-size: 5rem; margin-bottom: 1.5rem; display: block; }
+
+.final-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+.final-score {
+  font-family: var(--font-mono);
+  font-size: 3.5rem;
+  color: var(--neon-green);
+  font-weight: 700;
+  display: block;
+  margin: 1rem 0;
+  text-shadow: 0 0 20px rgba(0,255,136,0.5);
+}
+
+.final-record {
+  font-family: var(--font-display);
+  color: var(--neon-yellow);
+  margin-bottom: 1rem;
+  animation: pulse 1.2s infinite;
+}
+
+.final-text {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.8rem;
+  font-size: 1rem;
+}
+
+.final-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 0.7rem;
+  margin-bottom: 1.6rem;
+}
+
+.stat-tile {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 10px;
+  padding: 0.8rem;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--neon-cyan);
+  display: block;
+}
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.final-achievements {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+.final-achievements:empty { display: none; }
+
+.final-badge {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255,214,10,0.5);
+  color: var(--neon-yellow);
+  background: rgba(255,214,10,0.08);
+  animation: popIn 0.4s ease both;
+}
+
+.final-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  #screen-final { padding: 1.5rem 1rem; }
+  .final-card { padding: 2rem 1.2rem; }
+  .final-score { font-size: 2.5rem; }
+  .final-title { font-size: 1.5rem; }
+  .btn-restart { width: 100%; }
+}

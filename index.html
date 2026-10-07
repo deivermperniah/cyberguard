@@ -4,855 +4,109 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CyberGuard - El Sistema Comprometido</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap');
-
-  :root {
-    --neon-cyan: #00f5ff;
-    --neon-green: #00ff88;
-    --neon-red: #ff2d55;
-    --neon-yellow: #ffd60a;
-    --neon-purple: #bf5af2;
-    --bg-dark: #050a14;
-    --bg-panel: #0a1628;
-    --bg-card: #0d1f3c;
-    --text-primary: #e8f4fd;
-    --text-muted: #7a9abf;
-    --border-glow: rgba(0, 245, 255, 0.3);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Exo 2', sans-serif;
-    background: var(--bg-dark);
-    color: var(--text-primary);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ANIMATED BACKGROUND */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse at 20% 50%, rgba(0,245,255,0.04) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 20%, rgba(0,255,136,0.03) 0%, transparent 50%),
-      radial-gradient(ellipse at 60% 80%, rgba(191,90,242,0.04) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .grid-bg {
-    position: fixed;
-    inset: 0;
-    background-image: 
-      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* SCREENS */
-  .screen {
-    display: none;
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-  }
-  .screen.active { display: flex; flex-direction: column; }
-
-  /* ========= INTRO SCREEN ========= */
-  #screen-intro {
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    text-align: center;
-  }
-
-  .logo-container {
-    margin-bottom: 2rem;
-    animation: fadeInDown 1s ease;
-  }
-
-  .logo-icon {
-    font-size: 5rem;
-    margin-bottom: 1rem;
-    display: block;
-    filter: drop-shadow(0 0 20px var(--neon-cyan));
-  }
-
-  .game-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: none;
-    letter-spacing: 0.05em;
-    line-height: 1;
-  }
-
-  .game-subtitle {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--neon-yellow);
-    font-size: 1.1rem;
-    margin-top: 0.5rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-  }
-
-  .intro-panel {
-    background: var(--bg-panel);
-    border: 1px solid var(--border-glow);
-    border-radius: 16px;
-    padding: 2.5rem;
-    max-width: 750px;
-    width: 100%;
-    box-shadow: 0 0 40px rgba(0,245,255,0.08), inset 0 1px 0 rgba(0,245,255,0.1);
-    animation: fadeInUp 1s ease 0.3s both;
-  }
-
-  .alert-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(255, 45, 85, 0.15);
-    border: 1px solid var(--neon-red);
-    border-radius: 50px;
-    padding: 0.4rem 1.2rem;
-    color: var(--neon-red);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    margin-bottom: 1.5rem;
-    animation: pulse 2s infinite;
-  }
-
-  .intro-text {
-    color: var(--text-primary);
-    line-height: 1.8;
-    font-size: 1.05rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .intro-text strong { color: var(--neon-cyan); }
-
-  .karma-display {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-    background: rgba(0,255,136,0.08);
-    border: 1px solid rgba(0,255,136,0.3);
-    border-radius: 10px;
-    padding: 0.8rem 1.5rem;
-    margin-bottom: 1.5rem;
-    font-family: 'Share Tech Mono', monospace;
-  }
-
-  .karma-label { color: var(--text-muted); font-size: 0.85rem; }
-  .karma-value { color: var(--neon-green); font-size: 1.4rem; font-weight: 700; }
-
-  .btn-primary {
-    background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(0,255,136,0.15));
-    border: 1px solid var(--neon-cyan);
-    color: var(--neon-cyan);
-    padding: 1rem 3rem;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(0,245,255,0.2), rgba(0,255,136,0.2));
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .btn-primary:hover {
-    box-shadow: 0 0 25px rgba(0,245,255,0.4);
-    transform: translateY(-2px);
-  }
-  .btn-primary:hover::before { opacity: 1; }
-
-  /* ========= NAV BAR ========= */
-  .game-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    background: rgba(5,10,20,0.9);
-    border-bottom: 1px solid var(--border-glow);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .nav-logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--neon-cyan);
-    letter-spacing: 0.1em;
-  }
-
-  .nav-tabs {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .nav-tab {
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--text-muted);
-    padding: 0.5rem 1.2rem;
-    font-family: 'Exo 2', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-transform: uppercase;
-  }
-
-  .nav-tab:hover { color: var(--text-primary); border-color: var(--border-glow); }
-  .nav-tab.active {
-    color: var(--neon-cyan);
-    border-color: var(--neon-cyan);
-    background: rgba(0,245,255,0.08);
-  }
-
-  .nav-karma {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.9rem;
-  }
-  .nav-karma span { color: var(--neon-green); font-size: 1.1rem; }
-
-  /* ========= TAB CONTENT ========= */
-  .tab-content {
-    display: none;
-    padding: 2rem;
-    flex: 1;
-    max-width: 1100px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  .tab-content.active { display: block; }
-
-  .section-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--neon-cyan);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 1px solid var(--border-glow);
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  /* ========= HISTORIA ========= */
-  .story-card {
-    background: var(--bg-panel);
-    border: 1px solid var(--border-glow);
-    border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
-    font-size: 1rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .story-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
-  }
-
-  .story-card p { margin-bottom: 1rem; color: var(--text-primary); }
-  .story-card p:last-child { margin-bottom: 0; }
-  .story-card .highlight { color: var(--neon-yellow); font-weight: 600; }
-  .story-card .danger { color: var(--neon-red); font-weight: 600; }
-  .story-card .success { color: var(--neon-green); font-weight: 600; }
-
-  .incident-box {
-    background: rgba(255,45,85,0.08);
-    border: 1px solid rgba(255,45,85,0.4);
-    border-radius: 10px;
-    padding: 1.2rem 1.5rem;
-    margin: 1rem 0;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.9rem;
-    color: var(--neon-red);
-  }
-
-  .incident-box .incident-title {
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  /* ========= PROTAGONISTAS ========= */
-  .characters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .char-card {
-    background: var(--bg-panel);
-    border: 1px solid var(--border-glow);
-    border-radius: 16px;
-    padding: 2rem;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .char-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 40px rgba(0,245,255,0.15);
-  }
-
-  .char-avatar {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    margin: 0 auto 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.5rem;
-    border: 3px solid;
-    position: relative;
-  }
-
-  .char-card:nth-child(1) .char-avatar { border-color: var(--neon-cyan); background: rgba(0,245,255,0.1); box-shadow: 0 0 20px rgba(0,245,255,0.3); }
-  .char-card:nth-child(2) .char-avatar { border-color: var(--neon-green); background: rgba(0,255,136,0.1); box-shadow: 0 0 20px rgba(0,255,136,0.3); }
-  .char-card:nth-child(3) .char-avatar { border-color: var(--neon-purple); background: rgba(191,90,242,0.1); box-shadow: 0 0 20px rgba(191,90,242,0.3); }
-
-  .char-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-  }
-  .char-card:nth-child(1) .char-name { color: var(--neon-cyan); }
-  .char-card:nth-child(2) .char-name { color: var(--neon-green); }
-  .char-card:nth-child(3) .char-name { color: var(--neon-purple); }
-
-  .char-role {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  .char-desc {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: var(--text-primary);
-    margin-bottom: 1.2rem;
-  }
-
-  .char-skills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    justify-content: center;
-  }
-
-  .skill-tag {
-    background: rgba(0,245,255,0.1);
-    border: 1px solid rgba(0,245,255,0.3);
-    color: var(--neon-cyan);
-    padding: 0.25rem 0.7rem;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-family: 'Share Tech Mono', monospace;
-  }
-
-  .char-card:nth-child(2) .skill-tag { background: rgba(0,255,136,0.1); border-color: rgba(0,255,136,0.3); color: var(--neon-green); }
-  .char-card:nth-child(3) .skill-tag { background: rgba(191,90,242,0.1); border-color: rgba(191,90,242,0.3); color: var(--neon-purple); }
-
-  /* ========= EVIDENCIAS ========= */
-  .evidence-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.2rem;
-  }
-
-  .evidence-card {
-    background: var(--bg-panel);
-    border: 1px solid var(--border-glow);
-    border-radius: 12px;
-    padding: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-  }
-
-  .evidence-card:hover {
-    border-color: var(--neon-yellow);
-    box-shadow: 0 0 20px rgba(255,214,10,0.15);
-    transform: translateY(-3px);
-  }
-
-  .evidence-card.locked {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  .evidence-card.locked:hover { transform: none; box-shadow: none; border-color: var(--border-glow); }
-
-  .evidence-card.revealed {
-    border-color: var(--neon-green);
-    background: rgba(0,255,136,0.05);
-  }
-
-  .evidence-icon {
-    font-size: 2rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .evidence-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--neon-yellow);
-    margin-bottom: 0.5rem;
-  }
-
-  .evidence-desc {
-    font-size: 0.88rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  .evidence-revealed-text {
-    font-size: 0.88rem;
-    color: var(--neon-green);
-    line-height: 1.6;
-    margin-top: 0.5rem;
-    display: none;
-  }
-
-  .evidence-card.revealed .evidence-revealed-text { display: block; }
-  .evidence-card.revealed .evidence-desc { display: none; }
-
-  .lock-icon {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 1.2rem;
-  }
-
-  .karma-reward {
-    display: inline-block;
-    background: rgba(255,214,10,0.15);
-    border: 1px solid rgba(255,214,10,0.4);
-    color: var(--neon-yellow);
-    padding: 0.2rem 0.6rem;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-family: 'Share Tech Mono', monospace;
-    margin-top: 0.8rem;
-  }
-
-  /* ========= RIESGOS ========= */
-  .risks-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .risk-item {
-    background: var(--bg-panel);
-    border: 1px solid var(--border-glow);
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
-  .risk-item:hover { box-shadow: 0 5px 25px rgba(0,245,255,0.1); }
-
-  .risk-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.2rem 1.5rem;
-  }
-
-  .risk-level {
-    padding: 0.3rem 0.8rem;
-    border-radius: 50px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    min-width: 80px;
-    text-align: center;
-  }
-
-  .risk-level.critical { background: rgba(255,45,85,0.2); border: 1px solid var(--neon-red); color: var(--neon-red); }
-  .risk-level.high { background: rgba(255,159,10,0.2); border: 1px solid #ff9f0a; color: #ff9f0a; }
-  .risk-level.medium { background: rgba(255,214,10,0.15); border: 1px solid var(--neon-yellow); color: var(--neon-yellow); }
-  .risk-level.low { background: rgba(0,255,136,0.1); border: 1px solid var(--neon-green); color: var(--neon-green); }
-
-  .risk-name {
-    font-weight: 600;
-    font-size: 1rem;
-    flex: 1;
-  }
-
-  .risk-arrow {
-    color: var(--text-muted);
-    transition: transform 0.3s;
-    font-size: 1.2rem;
-  }
-
-  .risk-body {
-    display: none;
-    padding: 0 1.5rem 1.2rem;
-    border-top: 1px solid var(--border-glow);
-  }
-
-  .risk-item.open .risk-arrow { transform: rotate(90deg); }
-  .risk-item.open .risk-body { display: block; }
-
-  .risk-body p {
-    color: var(--text-primary);
-    line-height: 1.7;
-    font-size: 0.93rem;
-    padding-top: 1rem;
-  }
-
-  /* ========= SOLUCIONES / JUEGO ========= */
-  .game-section {
-    background: var(--bg-panel);
-    border: 1px solid var(--border-glow);
-    border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .game-question {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
-    line-height: 1.7;
-  }
-
-  .options-grid {
-    display: grid;
-    gap: 0.8rem;
-  }
-
-  .option-btn {
-    background: rgba(0,245,255,0.05);
-    border: 1px solid rgba(0,245,255,0.2);
-    color: var(--text-primary);
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: left;
-    font-size: 0.95rem;
-    font-family: 'Exo 2', sans-serif;
-    line-height: 1.5;
-  }
-
-  .option-btn:hover:not(:disabled) {
-    border-color: var(--neon-cyan);
-    background: rgba(0,245,255,0.1);
-    transform: translateX(5px);
-  }
-
-  .option-btn.correct {
-    background: rgba(0,255,136,0.15);
-    border-color: var(--neon-green);
-    color: var(--neon-green);
-  }
-
-  .option-btn.wrong {
-    background: rgba(255,45,85,0.1);
-    border-color: var(--neon-red);
-    color: var(--neon-red);
-  }
-
-  .option-btn:disabled { cursor: default; }
-
-  .feedback-box {
-    margin-top: 1rem;
-    padding: 1rem 1.2rem;
-    border-radius: 8px;
-    font-size: 0.93rem;
-    line-height: 1.6;
-    display: none;
-  }
-
-  .feedback-box.correct {
-    background: rgba(0,255,136,0.1);
-    border: 1px solid rgba(0,255,136,0.4);
-    color: var(--neon-green);
-    display: block;
-  }
-
-  .feedback-box.wrong {
-    background: rgba(255,45,85,0.08);
-    border: 1px solid rgba(255,45,85,0.4);
-    color: #ff6b7a;
-    display: block;
-  }
-
-  .progress-bar-container {
-    background: rgba(0,0,0,0.3);
-    border-radius: 50px;
-    height: 8px;
-    margin-bottom: 2rem;
-    overflow: hidden;
-  }
-
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
-    border-radius: 50px;
-    transition: width 0.5s ease;
-    box-shadow: 0 0 10px rgba(0,245,255,0.5);
-  }
-
-  .question-counter {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
-  }
-
-  .next-btn {
-    background: rgba(0,245,255,0.1);
-    border: 1px solid var(--neon-cyan);
-    color: var(--neon-cyan);
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    margin-top: 1rem;
-    display: none;
-    transition: all 0.2s;
-    text-transform: uppercase;
-  }
-
-  .next-btn:hover { background: rgba(0,245,255,0.2); box-shadow: 0 0 15px rgba(0,245,255,0.3); }
-  .next-btn.visible { display: inline-block; }
-
-  /* ========= FINAL SCREEN ========= */
-  #screen-final {
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    text-align: center;
-  }
-
-  .final-card {
-    background: var(--bg-panel);
-    border: 1px solid var(--border-glow);
-    border-radius: 20px;
-    padding: 3rem;
-    max-width: 650px;
-    width: 100%;
-    box-shadow: 0 0 60px rgba(0,255,136,0.1);
-  }
-
-  .final-emoji { font-size: 5rem; margin-bottom: 1.5rem; display: block; }
-
-  .final-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1rem;
-  }
-
-  .final-score {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 3.5rem;
-    color: var(--neon-green);
-    font-weight: 700;
-    display: block;
-    margin: 1rem 0;
-    text-shadow: 0 0 20px rgba(0,255,136,0.5);
-  }
-
-  .final-text {
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 2rem;
-    font-size: 1rem;
-  }
-
-  .btn-restart {
-    background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(0,255,136,0.15));
-    border: 1px solid var(--neon-cyan);
-    color: var(--neon-cyan);
-    padding: 0.9rem 2.5rem;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-transform: uppercase;
-  }
-  .btn-restart:hover { box-shadow: 0 0 25px rgba(0,245,255,0.4); }
-
-  /* ========= ANIMATIONS ========= */
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-  }
-
-  @keyframes scanline {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
-  }
-
-  .scanline {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(0,245,255,0.15), transparent);
-    animation: scanline 6s linear infinite;
-    pointer-events: none;
-    z-index: 999;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
-  .terminal-cursor::after {
-    content: '_';
-    animation: blink 1s step-end infinite;
-    color: var(--neon-cyan);
-  }
-
-  .karma-flash {
-    animation: karmaFlash 0.5s ease;
-  }
-  @keyframes karmaFlash {
-    0% { color: var(--neon-green); transform: scale(1.3); }
-    100% { color: var(--neon-green); transform: scale(1); }
-  }
-
-  /* Responsive */
-  @media (max-width: 600px) {
-    .game-nav { flex-wrap: wrap; gap: 0.5rem; }
-    .nav-tabs { overflow-x: auto; }
-    .tab-content { padding: 1rem; }
-    .characters-grid { grid-template-columns: 1fr; }
-    .evidence-grid { grid-template-columns: 1fr; }
-  }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/intro.css">
+<link rel="stylesheet" href="css/sections.css">
+<link rel="stylesheet" href="css/quiz.css">
+<link rel="stylesheet" href="css/lab.css">
+<link rel="stylesheet" href="css/final.css">
+
+<script defer src="js/core/storage.js"></script>
+<script defer src="js/core/state.js"></script>
+<script defer src="js/core/sound.js"></script>
+<script defer src="js/core/fx.js"></script>
+<script defer src="js/core/karma.js"></script>
+<script defer src="js/data/characters.js"></script>
+<script defer src="js/data/questions.js"></script>
+<script defer src="js/data/evidences.js"></script>
+<script defer src="js/data/risks.js"></script>
+<script defer src="js/data/emails.js"></script>
+<script defer src="js/data/achievements.js"></script>
+<script defer src="js/core/achievements.js"></script>
+<script defer src="js/ui/tabs.js"></script>
+<script defer src="js/ui/intro.js"></script>
+<script defer src="js/ui/characters.js"></script>
+<script defer src="js/ui/evidences.js"></script>
+<script defer src="js/ui/risks.js"></script>
+<script defer src="js/ui/quiz.js"></script>
+<script defer src="js/ui/lab-phishing.js"></script>
+<script defer src="js/ui/lab-password.js"></script>
+<script defer src="js/ui/final.js"></script>
+<script defer src="js/main.js"></script>
 </head>
 <body>
 
 <div class="grid-bg"></div>
 <div class="scanline"></div>
 
-<!-- ======= INTRO SCREEN ======= -->
-<div id="screen-intro" class="screen active">
+<!-- ======= INTRO ======= -->
+<section id="screen-intro" class="screen active">
   <div class="logo-container">
     <span class="logo-icon">🛡️</span>
-    <div class="game-title">CYBERGUARD</div>
+    <h1 class="game-title">CYBERGUARD</h1>
     <div class="game-subtitle terminal-cursor">El Sistema Comprometido</div>
   </div>
 
   <div class="intro-panel">
     <div class="alert-badge">⚠ ALERTA NIVEL CRÍTICO — IUNAV</div>
-    <p class="intro-text">
-      Es medianoche en la <strong>Universidad IUNAV</strong>. De repente, el sistema académico central
-      colapsa. Registros de calificaciones modificados, contraseñas filtradas, datos de estudiantes
-      expuestos al mundo...
-    </p>
-    <p class="intro-text">
-      Alguien ha comprometido la red universitaria. Un ataque coordinado y silencioso que lleva
-      semanas gestándose desde adentro — <strong>o quizás desde afuera.</strong>
-    </p>
-    <p class="intro-text">
-      El equipo de ciberseguridad formado por <strong>Deiver, Leo y Daira</strong> tiene pocas horas
-      para investigar las evidencias, identificar los riesgos y restaurar la seguridad del sistema
-      antes de que el daño sea irreversible.
-    </p>
-    <div class="karma-display">
-      <span class="karma-label">KARMA INICIAL</span>
-      <span class="karma-value" id="intro-karma">30,600</span>
-      <span class="karma-label">pts</span>
-    </div>
-    <button class="btn-primary" onclick="startGame()">▶ INICIAR INVESTIGACIÓN</button>
-  </div>
-</div>
+    <div class="terminal" id="boot-terminal" title="Clic para saltar" aria-live="polite"></div>
 
-<!-- ======= MAIN GAME SCREEN ======= -->
-<div id="screen-game" class="screen">
-  <nav class="game-nav">
-    <div class="nav-logo">🛡️ CYBERGUARD</div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" onclick="showTab('historia')">Historia</button>
-      <button class="nav-tab" onclick="showTab('protagonistas')">Protagonistas</button>
-      <button class="nav-tab" onclick="showTab('evidencias')">Evidencias</button>
-      <button class="nav-tab" onclick="showTab('riesgos')">Riesgos</button>
-      <button class="nav-tab" onclick="showTab('jugar')">Jugar</button>
+    <div class="intro-story" id="intro-story">
+      <p class="intro-text">
+        Es medianoche en la <strong>Universidad IUNAV</strong>. De repente, el sistema académico central
+        colapsa. Registros de calificaciones modificados, contraseñas filtradas, datos de estudiantes
+        expuestos al mundo...
+      </p>
+      <p class="intro-text">
+        Alguien ha comprometido la red universitaria. Un ataque coordinado y silencioso que lleva
+        semanas gestándose desde adentro — <strong>o quizás desde afuera.</strong>
+      </p>
+      <p class="intro-text">
+        El equipo de ciberseguridad formado por <strong>Deiver, Leo y Daira</strong> tiene pocas horas
+        para investigar las evidencias, identificar los riesgos y restaurar la seguridad del sistema
+        antes de que el daño sea irreversible.
+      </p>
+
+      <h2 class="intro-heading">Elige a tu investigador líder</h2>
+      <div class="pick-grid" id="character-pick"></div>
+
+      <div class="karma-display">
+        <span class="karma-label">KARMA INICIAL</span>
+        <span class="karma-value" id="intro-karma"></span>
+        <span class="karma-label">pts</span>
+      </div>
+      <p class="best-score" id="best-score" hidden></p>
+      <button class="btn-primary" id="btn-start" disabled>▶ INICIAR INVESTIGACIÓN</button>
     </div>
-    <div class="nav-karma">Karma: <span id="karma-display">30,600</span></div>
+  </div>
+</section>
+
+<!-- ======= JUEGO ======= -->
+<section id="screen-game" class="screen">
+  <nav class="game-nav">
+    <div class="nav-logo">🛡️ <span class="nav-logo-text">CYBERGUARD</span></div>
+    <div class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="historia" role="tab" aria-selected="true">Historia</button>
+      <button class="nav-tab" data-tab="protagonistas" role="tab">Protagonistas</button>
+      <button class="nav-tab" data-tab="evidencias" role="tab">Evidencias <span class="tab-badge" id="badge-evidencias" hidden></span></button>
+      <button class="nav-tab" data-tab="riesgos" role="tab">Riesgos</button>
+      <button class="nav-tab" data-tab="jugar" role="tab">Jugar</button>
+      <button class="nav-tab" data-tab="laboratorio" role="tab">Laboratorio</button>
+    </div>
+    <div class="nav-actions">
+      <span class="nav-agent" id="nav-agent"></span>
+      <div class="nav-karma">Karma: <span id="karma-display"></span></div>
+      <button class="icon-btn" id="btn-achievements" aria-label="Ver logros" title="Logros">🏅<span class="icon-btn-count" id="achievements-count">0</span></button>
+      <button class="icon-btn" id="btn-sound" aria-label="Silenciar sonido" title="Sonido">🔊</button>
+    </div>
   </nav>
 
-  <!-- HISTORIA TAB -->
+  <!-- HISTORIA -->
   <div id="tab-historia" class="tab-content active">
     <h2 class="section-title">📖 Historia</h2>
 
@@ -888,551 +142,135 @@
       y restaurar la integridad del sistema antes de que el semestre académico colapse por completo?
       <span class="success">¡Ayúdales a tomar las decisiones correctas!</span></p>
     </div>
+
+    <div class="story-cta">
+      <button class="btn-primary" data-goto="jugar">🎮 Empezar a investigar</button>
+      <button class="btn-ghost" data-goto="evidencias">🔎 Ver evidencias</button>
+    </div>
   </div>
 
-  <!-- PROTAGONISTAS TAB -->
+  <!-- PROTAGONISTAS -->
   <div id="tab-protagonistas" class="tab-content">
     <h2 class="section-title">👤 Protagonistas</h2>
-    <div class="characters-grid">
-
-      <div class="char-card">
-        <div class="char-avatar">🔍</div>
-        <div class="char-name">Deiver</div>
-        <div class="char-role">Analista Forense Digital</div>
-        <div class="char-desc">
-          Experto en análisis post-mortem de sistemas comprometidos. Deiver tiene la habilidad
-          de reconstruir exactamente qué ocurrió, cuándo y cómo, examinando logs, archivos
-          temporales y registros del sistema. Su meticulosidad es legendaria en IUNAV.
-        </div>
-        <div class="char-skills">
-          <span class="skill-tag">Forense Digital</span>
-          <span class="skill-tag">Análisis de Logs</span>
-          <span class="skill-tag">Recuperación de Datos</span>
-          <span class="skill-tag">Malware Analysis</span>
-        </div>
-      </div>
-
-      <div class="char-card">
-        <div class="char-avatar">🌐</div>
-        <div class="char-name">Leo</div>
-        <div class="char-role">Especialista en Redes y Tráfico</div>
-        <div class="char-desc">
-          Leo puede leer el tráfico de red como otros leen un libro. Su especialidad es
-          rastrear comunicaciones sospechosas, identificar IPs maliciosas y configurar
-          defensas perimetrales. Fue él quien detectó los primeros patrones anómalos.
-        </div>
-        <div class="char-skills">
-          <span class="skill-tag">Análisis de Red</span>
-          <span class="skill-tag">Firewalls</span>
-          <span class="skill-tag">IDS/IPS</span>
-          <span class="skill-tag">Wireshark</span>
-        </div>
-      </div>
-
-      <div class="char-card">
-        <div class="char-avatar">💻</div>
-        <div class="char-name">Daira</div>
-        <div class="char-role">Experta en Seguridad de Aplicaciones</div>
-        <div class="char-desc">
-          Daira conoce cada vulnerabilidad posible en las aplicaciones web. Su dominio
-          de OWASP Top 10, inyección SQL, XSS y autenticación rota la convierte en
-          la persona perfecta para analizar cómo los atacantes penetraron SisteMAT.
-        </div>
-        <div class="char-skills">
-          <span class="skill-tag">OWASP</span>
-          <span class="skill-tag">SQL Injection</span>
-          <span class="skill-tag">Pentesting</span>
-          <span class="skill-tag">Code Review</span>
-        </div>
-      </div>
-
-    </div>
+    <div class="characters-grid" id="characters-grid"></div>
   </div>
 
-  <!-- EVIDENCIAS TAB -->
+  <!-- EVIDENCIAS -->
   <div id="tab-evidencias" class="tab-content">
     <h2 class="section-title">🔎 Evidencias</h2>
-    <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">
-      Haz clic en cada evidencia para revelarla. Algunas requieren que primero respondas preguntas en la sección "Jugar".
+    <p class="section-hint">
+      Responde preguntas en "Jugar" para desbloquear evidencias y luego haz clic en ellas para analizarlas y ganar karma.
     </p>
-    <div class="evidence-grid" id="evidence-grid">
-
-      <div class="evidence-card revealed" id="ev1">
-        <div class="evidence-icon">📧</div>
-        <div class="evidence-title">E-01 · Email Sospechoso</div>
-        <div class="evidence-desc">Revisando la bandeja de entrada del personal...</div>
-        <div class="evidence-revealed-text">
-          Se encontró un correo de phishing enviado hace 3 semanas a 47 empleados.
-          El asunto: "Actualización urgente de credenciales SisteMAT". El dominio del remitente:
-          <code style="color:var(--neon-red)">iunav-soporte.net</code> (dominio falso registrado 4 días antes del ataque).
-          Al menos 3 empleados hicieron clic en el enlace malicioso.
-        </div>
-        <span class="karma-reward">+500 KARMA</span>
-      </div>
-
-      <div class="evidence-card" id="ev2" onclick="revealEvidence('ev2', 1)">
-        <div class="lock-icon">🔒</div>
-        <div class="evidence-icon">🗄️</div>
-        <div class="evidence-title">E-02 · Logs del Servidor</div>
-        <div class="evidence-desc">Análisis de los registros del servidor de base de datos. <br><em>(Responde la pregunta 1 para desbloquear)</em></div>
-        <div class="evidence-revealed-text">
-          Los logs revelan 15,000 consultas SQL anómalas entre el 01 y 14 de octubre.
-          Todas originadas desde la IP <code style="color:var(--neon-red)">185.220.101.47</code> (servidor Tor).
-          El patrón indica un ataque de inyección SQL automatizado contra el módulo
-          de inscripciones estudiantiles.
-        </div>
-        <span class="karma-reward">+1,000 KARMA</span>
-      </div>
-
-      <div class="evidence-card" id="ev3" onclick="revealEvidence('ev3', 2)">
-        <div class="lock-icon">🔒</div>
-        <div class="evidence-icon">🔑</div>
-        <div class="evidence-title">E-03 · Base de Contraseñas</div>
-        <div class="evidence-desc">Análisis del gestor de credenciales administrativo. <br><em>(Responde la pregunta 2 para desbloquear)</em></div>
-        <div class="evidence-revealed-text">
-          El 80% de las cuentas de administrador usaban contraseñas de 6 caracteres o menos.
-          La cuenta del administrador principal: <code style="color:var(--neon-red)">admin / iunav2024</code>.
-          No había autenticación de dos factores activada en ninguna cuenta crítica.
-        </div>
-        <span class="karma-reward">+1,000 KARMA</span>
-      </div>
-
-      <div class="evidence-card" id="ev4" onclick="revealEvidence('ev4', 3)">
-        <div class="lock-icon">🔒</div>
-        <div class="evidence-icon">🦠</div>
-        <div class="evidence-title">E-04 · Muestra de Ransomware</div>
-        <div class="evidence-desc">Archivo malicioso encontrado en el servidor principal. <br><em>(Responde la pregunta 3 para desbloquear)</em></div>
-        <div class="evidence-revealed-text">
-          Hash MD5: <code style="color:var(--neon-red)">a3f8c2e1b9d47f...</code>. Familia: LockBit 3.0.
-          El malware fue introducido vía una cuenta comprometida 6 días antes de activarse.
-          Estaba configurado para cifrar 847 GB de datos académicos y exigir
-          5 BTC (~$200,000 USD) como rescate.
-        </div>
-        <span class="karma-reward">+1,500 KARMA</span>
-      </div>
-
-      <div class="evidence-card" id="ev5" onclick="revealEvidence('ev5', 4)">
-        <div class="lock-icon">🔒</div>
-        <div class="evidence-icon">📡</div>
-        <div class="evidence-title">E-05 · Tráfico de Red</div>
-        <div class="evidence-desc">Captura Wireshark de los últimos 30 días. <br><em>(Responde la pregunta 4 para desbloquear)</em></div>
-        <div class="evidence-revealed-text">
-          Se detectaron conexiones salientes encriptadas hacia servidores en Rusia y Países Bajos.
-          Exfiltración de datos estimada: 2.3 GB de información personal de estudiantes.
-          El atacante usó el puerto 443 para mimetizarse con tráfico HTTPS legítimo.
-        </div>
-        <span class="karma-reward">+1,500 KARMA</span>
-      </div>
-
-      <div class="evidence-card" id="ev6" onclick="revealEvidence('ev6', 5)">
-        <div class="lock-icon">🔒</div>
-        <div class="evidence-icon">📋</div>
-        <div class="evidence-title">E-06 · Código Vulnerable</div>
-        <div class="evidence-desc">Revisión del código fuente de SisteMAT. <br><em>(Responde la pregunta 5 para desbloquear)</em></div>
-        <div class="evidence-revealed-text">
-          Se encontró una vulnerabilidad SQL Injection en el módulo de búsqueda de estudiantes.
-          El código concatenaba directamente el input del usuario en la consulta:
-          <code style="color:var(--neon-red)">SELECT * FROM alumnos WHERE nombre='" + nombre + "'"</code>.
-          Sin parametrización, sin validación, sin sanitización de inputs.
-        </div>
-        <span class="karma-reward">+2,000 KARMA</span>
-      </div>
-
+    <div class="progress-row">
+      <span class="progress-label" id="evidence-progress"></span>
+      <div class="progress-bar-container small"><div class="progress-bar" id="evidence-progress-bar"></div></div>
     </div>
+    <div class="evidence-grid" id="evidence-grid"></div>
   </div>
 
-  <!-- RIESGOS TAB -->
+  <!-- RIESGOS -->
   <div id="tab-riesgos" class="tab-content">
     <h2 class="section-title">⚠️ Riesgos de Seguridad</h2>
-    <div class="risks-list">
-
-      <div class="risk-item" onclick="toggleRisk(this)">
-        <div class="risk-header">
-          <span class="risk-level critical">CRÍTICO</span>
-          <span class="risk-name">Inyección SQL (SQLi) — OWASP A03</span>
-          <span class="risk-arrow">▶</span>
-        </div>
-        <div class="risk-body">
-          <p><strong style="color:var(--neon-red)">Descripción:</strong> El código de SisteMAT concatena directamente los datos del usuario en las consultas SQL sin ningún tipo de validación o parametrización. Esto permite a un atacante manipular la lógica de la base de datos, extraer información confidencial, modificar registros o incluso eliminar tablas enteras.</p>
-          <p style="margin-top:0.8rem"><strong style="color:var(--neon-green)">Solución:</strong> Usar consultas parametrizadas (Prepared Statements), un ORM confiable, y validar/sanitizar todos los inputs del usuario. Implementar un WAF (Web Application Firewall).</p>
-        </div>
-      </div>
-
-      <div class="risk-item" onclick="toggleRisk(this)">
-        <div class="risk-header">
-          <span class="risk-level critical">CRÍTICO</span>
-          <span class="risk-name">Ransomware / Malware en servidores</span>
-          <span class="risk-arrow">▶</span>
-        </div>
-        <div class="risk-body">
-          <p><strong style="color:var(--neon-red)">Descripción:</strong> El malware LockBit 3.0 fue instalado aprovechando credenciales comprometidas. De no contenerse, cifraría todos los archivos del sistema académico haciéndolos inaccesibles, con un impacto devastador para el funcionamiento de la universidad.</p>
-          <p style="margin-top:0.8rem"><strong style="color:var(--neon-green)">Solución:</strong> Aislar los sistemas afectados de inmediato. Restaurar desde backups limpios. Implementar EDR (Endpoint Detection & Response), antivirus corporativo actualizado y segmentación de red para limitar la propagación.</p>
-        </div>
-      </div>
-
-      <div class="risk-item" onclick="toggleRisk(this)">
-        <div class="risk-header">
-          <span class="risk-level high">ALTO</span>
-          <span class="risk-name">Phishing y Ingeniería Social</span>
-          <span class="risk-arrow">▶</span>
-        </div>
-        <div class="risk-body">
-          <p><strong style="color:var(--neon-red)">Descripción:</strong> Los atacantes crearon un dominio falso idéntico al de la universidad y enviaron correos convincentes solicitando credenciales. El desconocimiento del personal facilitó que 3 empleados entregaran sus contraseñas voluntariamente.</p>
-          <p style="margin-top:0.8rem"><strong style="color:var(--neon-green)">Solución:</strong> Capacitación periódica al personal en identificación de phishing. Implementar DMARC, DKIM y SPF para proteger el dominio. Simulacros de phishing para medir y mejorar la conciencia del personal.</p>
-        </div>
-      </div>
-
-      <div class="risk-item" onclick="toggleRisk(this)">
-        <div class="risk-header">
-          <span class="risk-level high">ALTO</span>
-          <span class="risk-name">Contraseñas débiles y sin MFA</span>
-          <span class="risk-arrow">▶</span>
-        </div>
-        <div class="risk-body">
-          <p><strong style="color:var(--neon-red)">Descripción:</strong> Las cuentas administrativas usaban contraseñas triviales como "iunav2024" y no tenían autenticación multifactor. Esto permitió al atacante acceder al panel de administración tras obtener las credenciales por phishing.</p>
-          <p style="margin-top:0.8rem"><strong style="color:var(--neon-green)">Solución:</strong> Política de contraseñas de mínimo 12 caracteres con complejidad. Implementar MFA obligatorio para todas las cuentas administrativas. Usar un gestor de contraseñas institucional. Revisar contraseñas con herramientas de breach checking.</p>
-        </div>
-      </div>
-
-      <div class="risk-item" onclick="toggleRisk(this)">
-        <div class="risk-header">
-          <span class="risk-level medium">MEDIO</span>
-          <span class="risk-name">Falta de parches y actualizaciones</span>
-          <span class="risk-arrow">▶</span>
-        </div>
-        <div class="risk-body">
-          <p><strong style="color:var(--neon-red)">Descripción:</strong> El módulo de inscripciones tenía una vulnerabilidad conocida sin parchear desde hacía 8 meses. Las actualizaciones de seguridad del sistema operativo y frameworks también estaban desactualizadas.</p>
-          <p style="margin-top:0.8rem"><strong style="color:var(--neon-green)">Solución:</strong> Establecer un proceso formal de gestión de parches con SLA definidos. Usar herramientas de escaneo de vulnerabilidades (Nessus, OpenVAS). Implementar un entorno de staging para probar parches antes de producción.</p>
-        </div>
-      </div>
-
-      <div class="risk-item" onclick="toggleRisk(this)">
-        <div class="risk-header">
-          <span class="risk-level medium">MEDIO</span>
-          <span class="risk-name">Exfiltración de datos / Fuga de información</span>
-          <span class="risk-arrow">▶</span>
-        </div>
-        <div class="risk-body">
-          <p><strong style="color:var(--neon-red)">Descripción:</strong> Los atacantes lograron copiar y transmitir 2.3 GB de datos personales de estudiantes hacia servidores externos. Esto implica violaciones a la privacidad, posibles sanciones legales y daño reputacional para la institución.</p>
-          <p style="margin-top:0.8rem"><strong style="color:var(--neon-green)">Solución:</strong> Implementar DLP (Data Loss Prevention). Cifrar datos sensibles en reposo y en tránsito. Monitoreo de tráfico saliente anómalo con SIEM. Clasificar y minimizar los datos almacenados siguiendo el principio de mínimo privilegio.</p>
-        </div>
-      </div>
-
-      <div class="risk-item" onclick="toggleRisk(this)">
-        <div class="risk-header">
-          <span class="risk-level low">BAJO</span>
-          <span class="risk-name">Sin política de backups verificada</span>
-          <span class="risk-arrow">▶</span>
-        </div>
-        <div class="risk-body">
-          <p><strong style="color:var(--neon-red)">Descripción:</strong> Si bien existían backups, nunca se habían probado formalmente. Ante el ransomware, el equipo descubrió que el último backup válido tenía 5 días de antigüedad y algunas tablas críticas no estaban incluidas.</p>
-          <p style="margin-top:0.8rem"><strong style="color:var(--neon-green)">Solución:</strong> Implementar la regla 3-2-1 para backups (3 copias, 2 medios diferentes, 1 offsite). Realizar pruebas de restauración mensuales. Automatizar verificación de integridad de backups. Considerar backup inmutable en cloud.</p>
-        </div>
-      </div>
-
+    <p class="section-hint">Abre cada riesgo para estudiarlo: cada uno nuevo suma karma.</p>
+    <div class="filter-row" id="risk-filters">
+      <button class="chip active" data-level="all">Todos</button>
+      <button class="chip chip-critical" data-level="critical">Crítico</button>
+      <button class="chip chip-high" data-level="high">Alto</button>
+      <button class="chip chip-medium" data-level="medium">Medio</button>
+      <button class="chip chip-low" data-level="low">Bajo</button>
+      <span class="progress-label" id="risk-progress"></span>
     </div>
+    <div class="risks-list" id="risks-list"></div>
   </div>
 
-  <!-- JUGAR TAB -->
+  <!-- JUGAR -->
   <div id="tab-jugar" class="tab-content">
     <h2 class="section-title">🎮 Tomar Decisiones</h2>
 
-    <div class="progress-bar-container">
-      <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+    <div class="quiz-hud">
+      <span class="hud-item">✅ Aciertos: <strong id="hud-correct">0</strong></span>
+      <span class="hud-item">🔥 Racha: <strong id="hud-streak">0</strong></span>
+      <span class="hud-item">💡 Pistas: <strong id="hud-hints">0</strong></span>
     </div>
 
-    <div id="game-play-area">
-      <!-- Questions will be injected here -->
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar"></div>
     </div>
+
+    <div id="game-play-area"></div>
   </div>
 
-</div>
+  <!-- LABORATORIO -->
+  <div id="tab-laboratorio" class="tab-content">
+    <h2 class="section-title">🧪 Laboratorio</h2>
+    <p class="section-hint">Entrena tus habilidades con estos minijuegos y gana karma extra.</p>
 
-<!-- ======= FINAL SCREEN ======= -->
-<div id="screen-final" class="screen">
+    <div class="lab-grid">
+      <div class="lab-panel">
+        <h3 class="lab-title">🎣 ¿Phishing o legítimo?</h3>
+        <p class="lab-desc">Clasifica cada correo de la bandeja de IUNAV. Busca dominios raros, urgencia y archivos sospechosos.</p>
+        <div id="phishing-game"></div>
+      </div>
+
+      <div class="lab-panel">
+        <h3 class="lab-title">🔐 Probador de contraseñas</h3>
+        <p class="lab-desc">Escribe una contraseña y mira cuánto tardaría un atacante en descifrarla. Nada de lo que escribas se guarda ni se envía.</p>
+        <div class="pw-field">
+          <input id="pw-input" type="password" autocomplete="off" spellcheck="false" placeholder="Prueba con iunav2024..." aria-label="Contraseña a evaluar">
+          <button class="icon-btn" id="pw-toggle" aria-label="Mostrar contraseña" title="Mostrar / ocultar">👁️</button>
+        </div>
+        <div class="pw-meter"><div class="pw-meter-fill" id="pw-meter-fill"></div></div>
+        <div class="pw-summary">
+          <span class="pw-level" id="pw-level">Sin evaluar</span>
+          <span class="pw-time" id="pw-time"></span>
+        </div>
+        <ul class="pw-checks" id="pw-checks">
+          <li data-check="length">Mínimo 12 caracteres</li>
+          <li data-check="lower">Letras minúsculas</li>
+          <li data-check="upper">Letras mayúsculas</li>
+          <li data-check="number">Números</li>
+          <li data-check="symbol">Símbolos (!@#$...)</li>
+          <li data-check="common">No es una contraseña común</li>
+        </ul>
+        <button class="btn-ghost" id="pw-generate">🎲 Generar contraseña segura</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= FINAL ======= -->
+<section id="screen-final" class="screen">
   <div class="final-card">
     <span class="final-emoji" id="final-emoji">🏆</span>
     <div class="final-title" id="final-title">¡Sistema Asegurado!</div>
-    <span class="final-score" id="final-score">45,100</span>
-    <p class="final-text" id="final-text">
-      El equipo de Deiver, Leo y Daira logró identificar todos los vectores de ataque,
-      contener el ransomware y restaurar la integridad del sistema IUNAV.
-      ¡La universidad puede continuar sus operaciones de forma segura!
-    </p>
-    <button class="btn-restart" onclick="restartGame()">↺ REINICIAR INVESTIGACIÓN</button>
-  </div>
-</div>
-
-<script>
-// ===================== GAME STATE =====================
-let karma = 30600;
-let currentQuestion = 0;
-let answeredQuestions = {};
-let unlockedEvidences = {};
-
-const questions = [
-  {
-    id: 1,
-    text: "El equipo revisó los correos recibidos por el personal de IUNAV. Descubrieron que 3 empleados hicieron clic en un enlace malicioso enviado desde 'iunav-soporte.net'. ¿Cuál es el nombre de este tipo de ataque?",
-    options: [
-      "A) Ataque de Fuerza Bruta — se prueban millones de contraseñas hasta encontrar la correcta.",
-      "B) Phishing — suplantación de identidad por correo para robar credenciales.",
-      "C) DDoS — inundación de tráfico para saturar el servidor.",
-      "D) Man-in-the-Middle — intercepción de comunicaciones legítimas."
-    ],
-    correct: 1,
-    feedback_correct: "✅ ¡Correcto! El Phishing es uno de los vectores de ataque más comunes. Los atacantes crearon un dominio casi idéntico (iunav-soporte.net vs iunav.edu) para engañar a los empleados. Esto desbloqueó los Logs del Servidor.",
-    feedback_wrong: "❌ Incorrecto. El ataque descrito es Phishing: los atacantes crean un sitio/correo falso que imita a uno legítimo para que la víctima entregue sus credenciales voluntariamente.",
-    karma_reward: 1500,
-    unlocks_evidence: 'ev2'
-  },
-  {
-    id: 2,
-    text: "Leo analizó los logs y encontró 15,000 consultas SQL anómalas en el módulo de inscripciones. El código vulnerable era: SELECT * FROM alumnos WHERE nombre='" + "' + nombre + '\"'. ¿Qué tipo de vulnerabilidad es esta?",
-    options: [
-      "A) Cross-Site Scripting (XSS) — inyección de scripts maliciosos en páginas web.",
-      "B) Buffer Overflow — desbordamiento de memoria para ejecutar código arbitrario.",
-      "C) SQL Injection — inserción de código SQL malicioso en campos de entrada.",
-      "D) CSRF — solicitudes falsas que explotan la sesión autenticada del usuario."
-    ],
-    correct: 2,
-    feedback_correct: "✅ ¡Excelente! La SQL Injection (OWASP A03) ocurre cuando el input del usuario se concatena directamente en consultas SQL. Un atacante puede escribir ' OR 1=1-- para obtener todos los registros o incluso borrar tablas enteras. Desbloqueaste la evidencia de Contraseñas.",
-    feedback_wrong: "❌ Incorrecto. La vulnerabilidad es SQL Injection. Al no usar consultas parametrizadas, el atacante puede insertar fragmentos SQL que alteran la lógica de la consulta original.",
-    karma_reward: 2000,
-    unlocks_evidence: 'ev3'
-  },
-  {
-    id: 3,
-    text: "Daira descubrió que las cuentas admin usaban contraseñas como 'iunav2024' y no tenían MFA. ¿Cuál es la MEJOR práctica para proteger estas cuentas administrativas?",
-    options: [
-      "A) Cambiar las contraseñas cada semana a cualquier combinación de 4 caracteres.",
-      "B) Implementar MFA + contraseñas de mínimo 12 caracteres con mayúsculas, números y símbolos.",
-      "C) Usar siempre la misma contraseña fuerte para no olvidarla.",
-      "D) Deshabilitar las cuentas que no se usen todos los días."
-    ],
-    correct: 1,
-    feedback_correct: "✅ ¡Correcto! La combinación de contraseñas robustas (12+ caracteres, complejidad) + Autenticación Multifactor (MFA) es el estándar de oro. El MFA añade una segunda capa de verificación que detiene el 99.9% de los ataques de credenciales comprometidas. Evidencia de Ransomware desbloqueada.",
-    feedback_wrong: "❌ Incorrecto. La mejor práctica es: contraseñas largas y complejas (12+ caracteres) COMBINADAS con MFA. Esto asegura que aunque la contraseña sea comprometida, el atacante no pueda acceder sin el segundo factor.",
-    karma_reward: 2000,
-    unlocks_evidence: 'ev4'
-  },
-  {
-    id: 4,
-    text: "Se detectó el ransomware LockBit 3.0 en el servidor principal. El sistema tiene backups de hace 5 días. ¿Cuál debe ser el PRIMER paso del equipo ante este incidente?",
-    options: [
-      "A) Pagar el rescate de 5 BTC para recuperar los archivos lo antes posible.",
-      "B) Reiniciar todos los servidores esperando que el malware desaparezca.",
-      "C) Aislar inmediatamente los sistemas afectados de la red para contener la propagación.",
-      "D) Esperar a que el antivirus lo detecte y elimine automáticamente."
-    ],
-    correct: 2,
-    feedback_correct: "✅ ¡Perfecto! El aislamiento inmediato es CRÍTICO. Desconectar los sistemas afectados de la red evita que el ransomware se propague a otros servidores. Nunca se debe pagar el rescate (no garantiza recuperación y financia el crimen). Tráfico de Red desbloqueado.",
-    feedback_wrong: "❌ Incorrecto. El primer paso es AISLAR los sistemas afectados. Pagar el rescate no garantiza la recuperación y financia actividades criminales. Reiniciar puede borrar evidencias forenses. El antivirus ya fue evadido por el malware.",
-    karma_reward: 2000,
-    unlocks_evidence: 'ev5'
-  },
-  {
-    id: 5,
-    text: "Deiver analizó la exfiltración de datos: 2.3 GB de datos personales de estudiantes fueron enviados a servidores en Rusia. ¿Qué solución técnica habría PREVENIDO esta exfiltración?",
-    options: [
-      "A) Deshabilitar el acceso a internet de todos los estudiantes.",
-      "B) Implementar DLP (Data Loss Prevention) con monitoreo de tráfico saliente anómalo.",
-      "C) Cambiar el sistema operativo de los servidores a otra plataforma.",
-      "D) Reducir el número de estudiantes inscritos en la universidad."
-    ],
-    correct: 1,
-    feedback_correct: "✅ ¡Excelente! Las soluciones DLP monitorizan y controlan qué datos pueden salir de la red corporativa. Combinadas con un SIEM que detecte anomalías de tráfico, habrían alertado al equipo ante la transferencia masiva e inusual de datos. Código Vulnerable desbloqueado.",
-    feedback_wrong: "❌ Incorrecto. La solución técnica adecuada es DLP (Data Loss Prevention): sistemas que inspeccionan el tráfico de red en busca de transferencias no autorizadas de información sensible y las bloquean o alertan al equipo de seguridad.",
-    karma_reward: 2000,
-    unlocks_evidence: 'ev6'
-  },
-  {
-    id: 6,
-    text: "Para cerrar la vulnerabilidad SQL Injection encontrada por Daira en SisteMAT, ¿qué cambio de código es el CORRECTO?",
-    options: [
-      "A) Cambiar el nombre de la tabla en la base de datos para que sea más difícil de adivinar.",
-      "B) Agregar más complejidad a la contraseña de la base de datos.",
-      "C) Usar consultas parametrizadas: PreparedStatement con '?' en lugar de concatenar strings.",
-      "D) Limitar las consultas SQL a máximo 100 caracteres de longitud."
-    ],
-    correct: 2,
-    feedback_correct: "✅ ¡Correcto! Las consultas parametrizadas (Prepared Statements) son la solución definitiva contra SQLi. En lugar de concatenar el input directamente, se usa un placeholder '?' y el driver de BD trata el input siempre como dato, nunca como código SQL. ¡Has completado la investigación!",
-    feedback_wrong: "❌ Incorrecto. La única solución real es usar Prepared Statements / Consultas Parametrizadas. Esto separa el código SQL de los datos del usuario, haciendo imposible que un atacante altere la lógica de la consulta.",
-    karma_reward: 3000,
-    unlocks_evidence: null
-  }
-];
-
-// ===================== FUNCTIONS =====================
-
-function startGame() {
-  document.getElementById('screen-intro').classList.remove('active');
-  document.getElementById('screen-game').classList.add('active');
-  renderQuestion();
-}
-
-function updateKarmaDisplay() {
-  const display = document.getElementById('karma-display');
-  display.textContent = karma.toLocaleString();
-  display.classList.add('karma-flash');
-  setTimeout(() => display.classList.remove('karma-flash'), 500);
-}
-
-function showTab(tabName) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + tabName).classList.add('active');
-  event.target.classList.add('active');
-}
-
-function toggleRisk(el) {
-  el.classList.toggle('open');
-}
-
-function revealEvidence(evId, questionNeeded) {
-  if (answeredQuestions[questionNeeded]) {
-    const card = document.getElementById(evId);
-    if (!card.classList.contains('revealed')) {
-      card.classList.add('revealed');
-      card.querySelector('.lock-icon').style.display = 'none';
-      karma += 500;
-      updateKarmaDisplay();
-    }
-  } else {
-    alert(`🔒 Responde correctamente la pregunta ${questionNeeded} en la sección "Jugar" para desbloquear esta evidencia.`);
-  }
-}
-
-function renderQuestion() {
-  const area = document.getElementById('game-play-area');
-
-  if (currentQuestion >= questions.length) {
-    showFinalScreen();
-    return;
-  }
-
-  const q = questions[currentQuestion];
-  const progress = (currentQuestion / questions.length) * 100;
-  document.getElementById('progress-bar').style.width = progress + '%';
-
-  area.innerHTML = `
-    <div class="game-section" id="question-section">
-      <div class="question-counter">PREGUNTA ${currentQuestion + 1} / ${questions.length}</div>
-      <div class="game-question">${q.text}</div>
-      <div class="options-grid">
-        ${q.options.map((opt, i) => `
-          <button class="option-btn" onclick="selectAnswer(${i})" id="opt-${i}">${opt}</button>
-        `).join('')}
-      </div>
-      <div class="feedback-box" id="feedback"></div>
-      <button class="next-btn" id="next-btn" onclick="nextQuestion()">
-        ${currentQuestion < questions.length - 1 ? 'SIGUIENTE PREGUNTA →' : 'VER RESULTADOS →'}
-      </button>
+    <span class="final-score" id="final-score"></span>
+    <p class="final-record" id="final-record" hidden>🎉 ¡Nuevo récord personal!</p>
+    <p class="final-text" id="final-text"></p>
+    <div class="final-stats" id="final-stats"></div>
+    <div class="final-achievements" id="final-achievements"></div>
+    <div class="final-actions">
+      <button class="btn-restart" id="btn-restart">↺ REINICIAR INVESTIGACIÓN</button>
+      <button class="btn-ghost" id="btn-explore">🔎 Seguir explorando</button>
     </div>
-  `;
-}
+  </div>
+</section>
 
-function selectAnswer(idx) {
-  const q = questions[currentQuestion];
-  const buttons = document.querySelectorAll('.option-btn');
-  const feedback = document.getElementById('feedback');
-  const nextBtn = document.getElementById('next-btn');
+<dialog class="modal" id="achievements-modal" aria-labelledby="achievements-title">
+  <div class="modal-header">
+    <h2 class="modal-title" id="achievements-title">🏅 Logros</h2>
+    <button class="icon-btn" id="btn-close-achievements" aria-label="Cerrar">✕</button>
+  </div>
+  <ul class="achievement-list" id="achievement-list"></ul>
+</dialog>
 
-  buttons.forEach(b => b.disabled = true);
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
 
-  if (idx === q.correct) {
-    buttons[idx].classList.add('correct');
-    feedback.className = 'feedback-box correct';
-    feedback.textContent = q.feedback_correct;
-    karma += q.karma_reward;
-    updateKarmaDisplay();
-    answeredQuestions[currentQuestion + 1] = true;
-
-    if (q.unlocks_evidence) {
-      const evCard = document.getElementById(q.unlocks_evidence);
-      if (evCard && !evCard.classList.contains('revealed')) {
-        evCard.classList.remove('locked');
-        setTimeout(() => {
-          evCard.classList.add('revealed');
-          evCard.querySelector('.lock-icon').style.display = 'none';
-        }, 1000);
-      }
-    }
-  } else {
-    buttons[idx].classList.add('wrong');
-    buttons[q.correct].classList.add('correct');
-    feedback.className = 'feedback-box wrong';
-    feedback.textContent = q.feedback_wrong;
-  }
-
-  nextBtn.classList.add('visible');
-}
-
-function nextQuestion() {
-  currentQuestion++;
-  renderQuestion();
-}
-
-function showFinalScreen() {
-  document.getElementById('screen-game').classList.remove('active');
-  document.getElementById('screen-final').classList.add('active');
-
-  const pct = Math.round((karma - 30600) / (3000+2000+2000+2000+2000+1500) * 100);
-
-  let emoji, title, text;
-  if (karma >= 42000) {
-    emoji = '🏆'; title = '¡Expertos en Ciberseguridad!';
-    text = 'El equipo de Deiver, Leo y Daira logró identificar todos los vectores de ataque, contener el ransomware y restaurar la integridad de SisteMAT. ¡IUNAV puede operar de forma segura!';
-  } else if (karma >= 36000) {
-    emoji = '🥈'; title = '¡Buen Trabajo!';
-    text = 'El equipo controló la mayor parte del incidente. Hay áreas de mejora en algunas decisiones, pero la universidad está en camino de recuperarse.';
-  } else {
-    emoji = '🔐'; title = 'Se Necesita Más Entrenamiento';
-    text = 'El equipo tuvo dificultades para identificar los vectores correctos. Se recomienda repasar los conceptos de ciberseguridad y volver a intentarlo.';
-  }
-
-  document.getElementById('final-emoji').textContent = emoji;
-  document.getElementById('final-title').textContent = title;
-  document.getElementById('final-score').textContent = karma.toLocaleString() + ' pts';
-  document.getElementById('final-text').textContent = text;
-}
-
-function restartGame() {
-  karma = 30600;
-  currentQuestion = 0;
-  answeredQuestions = {};
-
-  document.querySelectorAll('.evidence-card').forEach((card, i) => {
-    if (i > 0) {
-      card.classList.remove('revealed');
-      card.classList.add('locked');
-      const lock = card.querySelector('.lock-icon');
-      if (lock) lock.style.display = 'block';
-    }
-  });
-
-  document.getElementById('screen-final').classList.remove('active');
-  document.getElementById('screen-game').classList.add('active');
-  document.getElementById('progress-bar').style.width = '0%';
-  updateKarmaDisplay();
-  renderQuestion();
-}
-</script>
-
-<footer style="
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  padding: 1.2rem 1rem;
-  border-top: 1px solid rgba(0,245,255,0.15);
-  background: rgba(5,10,20,0.95);
-  font-family: 'Exo 2', sans-serif;
-">
-  <span style="color: #7a9abf; font-size: 0.85rem; letter-spacing: 0.05em;">
-    Hecho con <span style="color: #ff2d55; font-size: 1rem;">❤️</span> por
-    <strong style="color: #00f5ff;">Deiver</strong>,
-    <strong style="color: #00ff88;">Leo</strong> y
-    <strong style="color: #bf5af2;">Daira</strong>
+<footer class="site-footer">
+  <span>
+    Hecho con <span class="footer-heart">❤️</span> por
+    <strong class="footer-deiver">Deiver</strong>,
+    <strong class="footer-leo">Leo</strong> y
+    <strong class="footer-daira">Daira</strong>
   </span>
 </footer>
 </body>
