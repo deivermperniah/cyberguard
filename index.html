@@ -37,6 +37,7 @@
 <script defer src="js/ui/lab-phishing.js"></script>
 <script defer src="js/ui/lab-password.js"></script>
 <script defer src="js/ui/final.js"></script>
+<script defer src="js/ui/game-menu.js"></script>
 <script defer src="js/main.js"></script>
 </head>
 <body>
@@ -99,8 +100,9 @@
       <button class="nav-tab" data-tab="laboratorio" role="tab">Laboratorio</button>
     </div>
     <div class="nav-actions">
-      <span class="nav-agent" id="nav-agent"></span>
+      <button class="nav-agent" id="nav-agent" aria-label="Abrir menú de partida"></button>
       <div class="nav-karma">Karma: <span id="karma-display"></span></div>
+      <button class="icon-btn" id="btn-menu" aria-label="Menú de partida" title="Cambiar investigador o reiniciar">☰</button>
       <button class="icon-btn" id="btn-achievements" aria-label="Ver logros" title="Logros">🏅<span class="icon-btn-count" id="achievements-count">0</span></button>
       <button class="icon-btn" id="btn-sound" aria-label="Silenciar sonido" title="Sonido">🔊</button>
     </div>
@@ -261,6 +263,22 @@
     <button class="icon-btn" id="btn-close-achievements" aria-label="Cerrar">✕</button>
   </div>
   <ul class="achievement-list" id="achievement-list"></ul>
+</dialog>
+
+<dialog class="modal" id="game-menu" aria-labelledby="game-menu-title">
+  <div class="modal-header">
+    <h2 class="modal-title" id="game-menu-title">☰ Menú de partida</h2>
+    <button class="icon-btn" id="btn-close-menu" aria-label="Cerrar">✕</button>
+  </div>
+  <h3 class="menu-heading">Cambiar investigador líder</h3>
+  <p class="menu-hint">Conservas tu progreso y karma. La nueva ventaja se aplica desde ahora.</p>
+  <div class="pick-grid" id="menu-character-pick"></div>
+  <h3 class="menu-heading">Reiniciar partida</h3>
+  <p class="menu-hint">Vuelve al inicio para elegir de nuevo y empezar desde cero. Se pierde el progreso actual (los logros y tu récord se conservan).</p>
+  <div class="menu-actions">
+    <button class="btn-danger" id="btn-menu-restart">↺ Reiniciar partida</button>
+    <button class="btn-ghost" id="btn-menu-continue">▶ Seguir jugando</button>
+  </div>
 </dialog>
 
 <div class="toast-stack" id="toast-stack" aria-live="polite"></div>

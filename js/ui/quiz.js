@@ -108,7 +108,8 @@ CG.quiz = (() => {
 
   function tick() {
     const gameVisible = CG.$('screen-game').classList.contains('active');
-    if (answered || !gameVisible || CG.tabs.current() !== 'jugar' || document.hidden) return;
+    const dialogOpen = document.querySelector('dialog[open]');
+    if (answered || !gameVisible || dialogOpen || CG.tabs.current() !== 'jugar' || document.hidden) return;
 
     timeLeft = Math.max(timeLeft - 0.1, 0);
     const seconds = Math.ceil(timeLeft);
@@ -244,6 +245,11 @@ CG.quiz = (() => {
     }
   }
 
+  function refreshHint() {
+    const hintBtn = CG.$('btn-hint');
+    if (hintBtn) hintBtn.textContent = hintLabel();
+  }
+
   function init() {
     CG.$('game-play-area').addEventListener('click', e => {
       const option = e.target.closest('.option-btn');
@@ -254,5 +260,5 @@ CG.quiz = (() => {
     document.addEventListener('keydown', onKey);
   }
 
-  return { init, render, stop: stopTimer };
+  return { init, render, refreshHint, stop: stopTimer };
 })();

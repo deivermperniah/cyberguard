@@ -31,5 +31,6 @@ CG.quiz.init();
 CG.labPhishing.init();
 CG.labPassword.init();
 CG.final.init();
+CG.gameMenu.init();
 CG.intro.init();
 CG.karma.render(false);

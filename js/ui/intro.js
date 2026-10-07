@@ -38,15 +38,7 @@ CG.intro = (() => {
   }
 
   function renderPicker() {
-    CG.$('character-pick').innerHTML = CG.data.characters.map(c => `
-      <button class="pick-card ${selected === c.id ? 'selected' : ''}" data-character="${c.id}" style="--accent: ${c.color}" aria-pressed="${selected === c.id}">
-        <span class="pick-emoji">${c.emoji}</span>
-        <span>
-          <span class="pick-name">${c.name}</span>
-          <span class="pick-perk"><strong>${c.perk.title}</strong>${c.perk.desc}</span>
-        </span>
-      </button>
-    `).join('');
+    CG.$('character-pick').innerHTML = CG.characters.pickerHtml(selected);
   }
 
   function renderBest() {
@@ -62,18 +54,10 @@ CG.intro = (() => {
       CG.fx.shake(startBtn);
       return;
     }
-    const character = CG.data.characters.find(c => c.id === selected);
-    CG.state.character = character;
     CG.state.startedAt = Date.now();
-
-    const agent = CG.$('nav-agent');
-    agent.textContent = character.emoji;
-    agent.title = `Líder: ${character.name} · ${character.perk.title}`;
-    agent.style.setProperty('--accent', character.color);
+    const character = CG.characters.setLeader(selected);
 
     CG.sound.play('start');
-    CG.characters.render();
-    CG.evidences.render();
     CG.quiz.render();
     CG.showScreen('screen-game');
     CG.tabs.show('historia');

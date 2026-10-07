@@ -351,3 +351,43 @@ kbd {
 .achievement-name { font-weight: 700; color: var(--neon-yellow); }
 .achievement.locked .achievement-name { color: var(--text-muted); }
 .achievement-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+/* Menú de partida */
+.menu-heading {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  margin-top: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.menu-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 0.9rem;
+}
+
+#game-menu .pick-grid { margin-bottom: 1.4rem; }
+
+.menu-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.btn-danger {
+  background: rgba(255,45,85,0.1);
+  border: 1px solid var(--neon-red);
+  color: var(--neon-red);
+  padding: 0.7rem 1.3rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.btn-danger:hover { background: rgba(255,45,85,0.2); box-shadow: 0 0 14px rgba(255,45,85,0.35); }
+.btn-danger.confirming { background: var(--neon-red); color: #fff; animation: pulse 1s infinite; }

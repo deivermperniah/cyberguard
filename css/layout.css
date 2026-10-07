@@ -92,6 +92,13 @@
   justify-content: center;
   border: 2px solid var(--accent, var(--neon-cyan));
   background: color-mix(in srgb, var(--accent, var(--neon-cyan)) 12%, transparent);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav-agent:hover {
+  transform: scale(1.1) rotate(-8deg);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent, var(--neon-cyan)) 50%, transparent);
 }
 .nav-agent:empty { display: none; }
 

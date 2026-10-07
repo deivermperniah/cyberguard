@@ -9,6 +9,7 @@ Narrativa interactiva de ciberseguridad: simula un ataque ransomware (LockBit 3.
 - **Evidencias**: se desbloquean al responder y se analizan con un clic para ganar karma.
 - **Riesgos**: filtros por nivel y karma por cada riesgo estudiado.
 - **Laboratorio**: minijuego "¿Phishing o legítimo?" y probador de contraseñas con tiempo estimado de descifrado.
+- **Menú de partida** (☰ o clic en tu avatar): cambiar de investigador sin perder el progreso o reiniciar la partida.
 - **Logros**, sonidos (silenciables), confeti y récord personal guardado en el navegador.
 
 ## Stack
@@ -27,7 +28,7 @@ css/
 js/
   core/             # Estado, karma, sonido, efectos, logros, storage
   data/             # Contenido: personajes, preguntas, evidencias, riesgos, correos, logros
-  ui/               # Un módulo por sección (intro, tabs, quiz, evidencias, riesgos, laboratorio, final)
+  ui/               # Un módulo por sección (intro, tabs, quiz, evidencias, riesgos, laboratorio, final, menú)
   main.js           # Arranque
 ```
 

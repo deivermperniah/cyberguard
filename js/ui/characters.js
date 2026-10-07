@@ -16,5 +16,31 @@ CG.characters = {
         <div class="char-perk"><strong>⭐ ${c.perk.title}:</strong> ${c.perk.desc}</div>
       </div>
     `).join('');
+  },
+
+  pickerHtml(selectedId) {
+    return CG.data.characters.map(c => `
+      <button class="pick-card ${selectedId === c.id ? 'selected' : ''}" data-character="${c.id}" style="--accent: ${c.color}" aria-pressed="${selectedId === c.id}">
+        <span class="pick-emoji">${c.emoji}</span>
+        <span>
+          <span class="pick-name">${c.name}</span>
+          <span class="pick-perk"><strong>${c.perk.title}</strong>${c.perk.desc}</span>
+        </span>
+      </button>
+    `).join('');
+  },
+
+  setLeader(id) {
+    const character = CG.data.characters.find(c => c.id === id);
+    CG.state.character = character;
+
+    const agent = CG.$('nav-agent');
+    agent.textContent = character.emoji;
+    agent.title = `Líder: ${character.name} · ${character.perk.title} (clic para abrir el menú)`;
+    agent.style.setProperty('--accent', character.color);
+
+    this.render();
+    CG.evidences.render();
+    return character;
   }
 };

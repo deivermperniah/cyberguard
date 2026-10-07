@@ -16,7 +16,7 @@
 
 ## Estructura
 
-- `index.html`: marcado de las pantallas (intro, juego, final), el nav con pestañas (Historia, Protagonistas, Evidencias, Riesgos, Jugar, Laboratorio), el modal de logros y el orden de carga de CSS/JS.
+- `index.html`: marcado de las pantallas (intro, juego, final), el nav con pestañas (Historia, Protagonistas, Evidencias, Riesgos, Jugar, Laboratorio), los modales (logros y menú de partida) y el orden de carga de CSS/JS.
 - `css/`: `base.css` (variables, reset, animaciones), `layout.css` (pantallas, nav, pestañas, footer), `components.css` (botones, toasts, modal, chips), y un archivo por sección (`intro`, `sections`, `quiz`, `lab`, `final`).
 - `js/core/`: estado (`state.js`), karma, sonido (WebAudio), efectos (`fx.js`: toasts, confeti, shake), logros y `localStorage` (`storage.js`).
 - `js/data/`: contenido editable (personajes, preguntas, evidencias, riesgos, correos del laboratorio, logros).
