@@ -1,4 +1,4 @@
-# CyberGuard · Proyecto académico
+# cyberguard · Proyecto académico
 
 Narrativa interactiva de ciberseguridad: simula un ataque ransomware (LockBit 3.0) a la Universidad IUNAV y el trabajo del equipo para investigar y restaurar la seguridad.
 
