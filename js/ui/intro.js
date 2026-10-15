@@ -59,8 +59,9 @@ CG.intro = (() => {
 
     CG.sound.play('start');
     CG.quiz.render();
-    CG.showScreen('screen-game');
-    CG.tabs.show('historia');
+    CG.flow.reset();
+    CG.flow.render();
+    CG.showScreen('screen-story');
     CG.fx.toast(`${character.name} lidera la investigación: ${character.perk.desc}`, { icon: character.emoji, type: 'success' });
   }
 

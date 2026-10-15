@@ -168,10 +168,88 @@
   margin-bottom: 1rem;
 }
 
+/* Briefing: cómo se juega */
+.how-to {
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: 1.3rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.how-to-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neon-yellow);
+  margin-bottom: 1rem;
+}
+
+.how-to-steps {
+  list-style: none;
+  counter-reset: howto;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.how-to-steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.how-to-steps li::before {
+  counter-increment: howto;
+  content: counter(howto);
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--border-glow);
+  background: rgba(0,245,255,0.08);
+  color: var(--neon-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.how-to-steps li strong { color: var(--text-primary); }
+.how-to-steps li span { color: var(--text-muted); }
+
+.how-to-note {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  line-height: 1.5;
+}
+
+.pick-role {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+}
+
+.pick-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  justify-content: center;
+  margin-top: 0.4rem;
+}
+.pick-skills .skill-tag { font-size: 0.68rem; padding: 0.15rem 0.5rem; }
+
 @media (max-width: 600px) {
   #screen-intro { padding: 1.5rem 1rem; }
   .intro-panel { padding: 1.5rem 1.1rem; }
   .pick-grid { grid-template-columns: 1fr; }
-  .pick-card { flex-direction: row; text-align: left; gap: 0.8rem; }
+  .pick-card { gap: 0.35rem; }
   .btn-primary { padding: 1rem 1.5rem; width: 100%; }
 }

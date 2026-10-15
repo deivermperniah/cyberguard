@@ -1,0 +1,163 @@
+/* Flujo de fases */
+.game-body {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.75rem 2rem 0;
+}
+
+.stepper {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
+}
+
+.step-item { position: relative; }
+
+.step-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-glow);
+  background: var(--bg-panel);
+  color: var(--text-muted);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.step-index {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-glow);
+  background: rgba(0,245,255,0.08);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.step-label {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.step-lock { margin-left: auto; font-size: 0.85rem; }
+
+.step-btn:disabled { cursor: not-allowed; }
+.step-btn.locked { opacity: 0.5; }
+
+.step-btn.done {
+  border-color: rgba(0,255,136,0.5);
+  color: var(--neon-green);
+}
+.step-btn.done .step-index {
+  background: var(--neon-green);
+  border-color: var(--neon-green);
+  color: var(--bg-dark);
+}
+
+.step-btn.active {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0,245,255,0.08);
+  box-shadow: 0 0 18px rgba(0,245,255,0.15);
+}
+.step-btn.active .step-index {
+  background: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  color: var(--bg-dark);
+}
+
+/* Fases */
+.phase { display: none; }
+.phase.active { display: block; animation: fadeInUp 0.35s ease; }
+
+.phase-head {
+  margin-bottom: 1.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-glow);
+}
+
+.phase-title {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--neon-cyan);
+  margin-bottom: 0.5rem;
+}
+
+.phase-objective {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  max-width: 70ch;
+}
+
+.phase-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 50px;
+  background: var(--neon-red);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 20px;
+  text-align: center;
+  animation: pulse 1.6s infinite;
+}
+
+/* Barra de avance */
+.phase-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem 2.5rem;
+}
+
+.phase-status {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.continue-btn {
+  padding: 0.85rem 2.2rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 760px) {
+  .game-body { padding: 1.25rem 1rem 0; }
+  .stepper {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .stepper::-webkit-scrollbar { display: none; }
+  .step-item { flex: 0 0 auto; min-width: 150px; }
+  .phase-footer { padding: 1.25rem 1rem 2rem; }
+  .continue-btn { width: 100%; }
+}

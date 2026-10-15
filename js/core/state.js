@@ -20,6 +20,8 @@ CG.state = {
     this.risksRead = new Set();
     this.rewards = new Set();
     this.runAchievements = new Set();
+    this.labPhishingDone = false;
+    this.labPasswordUsed = false;
     this.startedAt = Date.now();
   },
 

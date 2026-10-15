@@ -47,11 +47,11 @@ CG.quiz = (() => {
       area.innerHTML = `
         <div class="game-section quiz-done">
           <span class="final-emoji">🛡️</span>
-          <h3 class="section-title">Investigación completada</h3>
-          <p>Ya respondiste todas las preguntas. Puedes seguir analizando evidencias y jugando en el laboratorio.</p>
-          <button class="next-btn visible" id="btn-results">VER RESULTADOS →</button>
+          <h3 class="section-title">Fase 1 completada</h3>
+          <p>Ya respondiste todas las preguntas. Continúa con el análisis de las evidencias.</p>
+          <button class="next-btn visible" id="btn-results">CONTINUAR A EVIDENCIAS →</button>
         </div>`;
-      CG.$('btn-results').addEventListener('click', () => CG.final.show());
+      CG.$('btn-results').addEventListener('click', () => CG.flow.next());
       return;
     }
 
@@ -89,7 +89,7 @@ CG.quiz = (() => {
         </div>
         <div class="hint-box" id="hint-box" hidden></div>
         <div class="feedback-box" id="feedback"></div>
-        <button class="next-btn" id="next-btn">${i < total() - 1 ? 'SIGUIENTE PREGUNTA →' : 'VER RESULTADOS →'}</button>
+        <button class="next-btn" id="next-btn">${i < total() - 1 ? 'SIGUIENTE PREGUNTA →' : 'TERMINAR FASE →'}</button>
       </div>
     `;
 
@@ -109,7 +109,7 @@ CG.quiz = (() => {
   function tick() {
     const gameVisible = CG.$('screen-game').classList.contains('active');
     const dialogOpen = document.querySelector('dialog[open]');
-    if (answered || !gameVisible || dialogOpen || CG.tabs.current() !== 'jugar' || document.hidden) return;
+    if (answered || !gameVisible || dialogOpen || CG.flow.current() !== 'jugar' || document.hidden) return;
 
     timeLeft = Math.max(timeLeft - 0.1, 0);
     const seconds = Math.ceil(timeLeft);
@@ -192,6 +192,7 @@ CG.quiz = (() => {
     const nextBtn = CG.$('next-btn');
     nextBtn.classList.add('visible');
     nextBtn.focus({ preventScroll: true });
+    CG.flow.refresh();
   }
 
   function useHint() {
@@ -220,17 +221,14 @@ CG.quiz = (() => {
 
   function next() {
     CG.state.questionIndex++;
-    if (CG.state.questionIndex >= total()) {
-      CG.final.show();
-    } else {
-      render();
-      CG.$('question-section').scrollIntoView({ block: 'nearest' });
-    }
+    render();
+    if (CG.state.questionIndex < total()) CG.$('question-section').scrollIntoView({ block: 'nearest' });
+    CG.flow.refresh();
   }
 
   function onKey(e) {
     const gameVisible = CG.$('screen-game').classList.contains('active');
-    if (!gameVisible || CG.tabs.current() !== 'jugar' || !CG.$('question-section')) return;
+    if (!gameVisible || CG.flow.current() !== 'jugar' || !CG.$('question-section')) return;
     if (e.target.matches('input, textarea') || e.ctrlKey || e.metaKey || e.altKey) return;
 
     const key = e.key.toUpperCase();

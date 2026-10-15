@@ -80,6 +80,7 @@ CG.evidences = (() => {
       if (CG.state.analyzed.size === CG.data.evidences.length) {
         CG.achievements.unlock('forensic');
       }
+      CG.flow.refresh();
     }, SCAN_MS);
   }
 

@@ -43,6 +43,7 @@ CG.risks = (() => {
     if (CG.state.risksRead.size === CG.data.risks.length) {
       CG.achievements.unlock('risk-reader');
     }
+    CG.flow.refresh();
   }
 
   function setFilter(level) {

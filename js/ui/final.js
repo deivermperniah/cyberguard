@@ -73,8 +73,7 @@ CG.final = (() => {
     CG.$('btn-restart').addEventListener('click', () => CG.restart());
     CG.$('btn-explore').addEventListener('click', () => {
       CG.showScreen('screen-game');
-      CG.quiz.render();
-      CG.tabs.show('evidencias');
+      CG.flow.show('evidencias');
     });
   }
 

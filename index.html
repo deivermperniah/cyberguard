@@ -4,12 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CyberGuard - El Sistema Comprometido</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🛡️%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/flow.css">
 <link rel="stylesheet" href="css/intro.css">
 <link rel="stylesheet" href="css/sections.css">
 <link rel="stylesheet" href="css/quiz.css">
@@ -28,7 +30,7 @@
 <script defer src="js/data/emails.js"></script>
 <script defer src="js/data/achievements.js"></script>
 <script defer src="js/core/achievements.js"></script>
-<script defer src="js/ui/tabs.js"></script>
+<script defer src="js/ui/flow.js"></script>
 <script defer src="js/ui/intro.js"></script>
 <script defer src="js/ui/characters.js"></script>
 <script defer src="js/ui/evidences.js"></script>
@@ -38,6 +40,7 @@
 <script defer src="js/ui/lab-password.js"></script>
 <script defer src="js/ui/final.js"></script>
 <script defer src="js/ui/game-menu.js"></script>
+<script defer src="js/ui/story.js"></script>
 <script defer src="js/main.js"></script>
 </head>
 <body>
@@ -45,7 +48,7 @@
 <div class="grid-bg"></div>
 <div class="scanline"></div>
 
-<!-- ======= INTRO ======= -->
+<!-- ======= BRIEFING (INICIO) ======= -->
 <section id="screen-intro" class="screen active">
   <div class="logo-container">
     <span class="logo-icon">🛡️</span>
@@ -59,19 +62,21 @@
 
     <div class="intro-story" id="intro-story">
       <p class="intro-text">
-        Es medianoche en la <strong>Universidad IUNAV</strong>. De repente, el sistema académico central
-        colapsa. Registros de calificaciones modificados, contraseñas filtradas, datos de estudiantes
-        expuestos al mundo...
+        Es medianoche en la <strong>Universidad IUNAV</strong> y el sistema académico <strong>SisteMAT</strong>
+        ha colapsado: calificaciones alteradas, contraseñas filtradas y un <strong>ransomware</strong>
+        a punto de cifrar todo. Tu equipo tiene pocas horas para contener el incidente.
       </p>
-      <p class="intro-text">
-        Alguien ha comprometido la red universitaria. Un ataque coordinado y silencioso que lleva
-        semanas gestándose desde adentro — <strong>o quizás desde afuera.</strong>
-      </p>
-      <p class="intro-text">
-        El equipo de ciberseguridad formado por <strong>Deiver, Leo y Daira</strong> tiene pocas horas
-        para investigar las evidencias, identificar los riesgos y restaurar la seguridad del sistema
-        antes de que el daño sea irreversible.
-      </p>
+
+      <div class="how-to">
+        <h3 class="how-to-title">Cómo se juega</h3>
+        <ol class="how-to-steps">
+          <li><strong>Investiga</strong><span>Responde 6 preguntas para reconstruir el ataque.</span></li>
+          <li><strong>Analiza</strong><span>Estudia las evidencias que desbloquees.</span></li>
+          <li><strong>Evalúa</strong><span>Revisa los riesgos de seguridad detectados.</span></li>
+          <li><strong>Entrena</strong><span>Supera el laboratorio de phishing y contraseñas.</span></li>
+        </ol>
+        <p class="how-to-note">Cada fase se habilita al completar la anterior. Gana karma con cada decisión correcta.</p>
+      </div>
 
       <h2 class="intro-heading">Elige a tu investigador líder</h2>
       <div class="pick-grid" id="character-pick"></div>
@@ -87,30 +92,11 @@
   </div>
 </section>
 
-<!-- ======= JUEGO ======= -->
-<section id="screen-game" class="screen">
-  <nav class="game-nav">
-    <div class="nav-logo">🛡️ <span class="nav-logo-text">CYBERGUARD</span></div>
-    <div class="nav-tabs" role="tablist">
-      <button class="nav-tab active" data-tab="historia" role="tab" aria-selected="true">Historia</button>
-      <button class="nav-tab" data-tab="protagonistas" role="tab">Protagonistas</button>
-      <button class="nav-tab" data-tab="evidencias" role="tab">Evidencias <span class="tab-badge" id="badge-evidencias" hidden></span></button>
-      <button class="nav-tab" data-tab="riesgos" role="tab">Riesgos</button>
-      <button class="nav-tab" data-tab="jugar" role="tab">Jugar</button>
-      <button class="nav-tab" data-tab="laboratorio" role="tab">Laboratorio</button>
-    </div>
-    <div class="nav-actions">
-      <button class="nav-agent" id="nav-agent" aria-label="Abrir menú de partida"></button>
-      <div class="nav-karma">Karma: <span id="karma-display"></span></div>
-      <button class="icon-btn" id="btn-menu" aria-label="Menú de partida" title="Cambiar investigador o reiniciar">☰</button>
-      <button class="icon-btn" id="btn-achievements" aria-label="Ver logros" title="Logros">🏅<span class="icon-btn-count" id="achievements-count">0</span></button>
-      <button class="icon-btn" id="btn-sound" aria-label="Silenciar sonido" title="Sonido">🔊</button>
-    </div>
-  </nav>
-
-  <!-- HISTORIA -->
-  <div id="tab-historia" class="tab-content active">
-    <h2 class="section-title">📖 Historia</h2>
+<!-- ======= HISTORIA ======= -->
+<section id="screen-story" class="screen">
+  <div class="story-screen">
+    <h1 class="story-screen-title">📖 El caso IUNAV</h1>
+    <p class="story-screen-lead">Lee el informe del incidente con calma antes de empezar a responder.</p>
 
     <div class="story-card">
       <p>La <strong class="highlight">Universidad IUNAV</strong> es una institución educativa que alberga a más de
@@ -145,98 +131,127 @@
       <span class="success">¡Ayúdales a tomar las decisiones correctas!</span></p>
     </div>
 
-    <div class="story-cta">
-      <button class="btn-primary" data-goto="jugar">🎮 Empezar a investigar</button>
-      <button class="btn-ghost" data-goto="evidencias">🔎 Ver evidencias</button>
-    </div>
+    <button class="btn-primary" id="btn-story-start">▶ Comenzar la investigación</button>
   </div>
+</section>
 
-  <!-- PROTAGONISTAS -->
-  <div id="tab-protagonistas" class="tab-content">
-    <h2 class="section-title">👤 Protagonistas</h2>
-    <div class="characters-grid" id="characters-grid"></div>
-  </div>
-
-  <!-- EVIDENCIAS -->
-  <div id="tab-evidencias" class="tab-content">
-    <h2 class="section-title">🔎 Evidencias</h2>
-    <p class="section-hint">
-      Responde preguntas en "Jugar" para desbloquear evidencias y luego haz clic en ellas para analizarlas y ganar karma.
-    </p>
-    <div class="progress-row">
-      <span class="progress-label" id="evidence-progress"></span>
-      <div class="progress-bar-container small"><div class="progress-bar" id="evidence-progress-bar"></div></div>
+<!-- ======= JUEGO ======= -->
+<section id="screen-game" class="screen">
+  <nav class="game-nav">
+    <div class="nav-logo">🛡️ <span class="nav-logo-text">CYBERGUARD</span></div>
+    <div class="nav-actions">
+      <div class="nav-status">
+        <span class="nav-agent" id="nav-agent" title="Investigador líder"></span>
+        <div class="nav-karma">Karma: <span id="karma-display"></span></div>
+      </div>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <div class="nav-controls">
+        <button class="icon-btn" id="btn-achievements" aria-label="Ver logros" title="Logros">🏅<span class="icon-btn-count" id="achievements-count">0</span></button>
+        <button class="icon-btn" id="btn-sound" aria-label="Silenciar sonido" title="Sonido">🔊</button>
+      </div>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <button class="icon-btn" id="btn-menu" aria-label="Menú de partida" title="Reiniciar partida">☰</button>
     </div>
-    <div class="evidence-grid" id="evidence-grid"></div>
-  </div>
+  </nav>
 
-  <!-- RIESGOS -->
-  <div id="tab-riesgos" class="tab-content">
-    <h2 class="section-title">⚠️ Riesgos de Seguridad</h2>
-    <p class="section-hint">Abre cada riesgo para estudiarlo: cada uno nuevo suma karma.</p>
-    <div class="filter-row" id="risk-filters">
-      <button class="chip active" data-level="all">Todos</button>
-      <button class="chip chip-critical" data-level="critical">Crítico</button>
-      <button class="chip chip-high" data-level="high">Alto</button>
-      <button class="chip chip-medium" data-level="medium">Medio</button>
-      <button class="chip chip-low" data-level="low">Bajo</button>
-      <span class="progress-label" id="risk-progress"></span>
-    </div>
-    <div class="risks-list" id="risks-list"></div>
-  </div>
+  <div class="game-body">
+    <ol class="stepper" id="phase-stepper" aria-label="Fases de la misión"></ol>
 
-  <!-- JUGAR -->
-  <div id="tab-jugar" class="tab-content">
-    <h2 class="section-title">🎮 Tomar Decisiones</h2>
+    <!-- FASE 1 · INVESTIGAR -->
+    <section class="phase" id="phase-jugar" aria-label="Fase 1: Investigar">
+      <header class="phase-head">
+        <h2 class="phase-title">Fase 1 · Investigar</h2>
+        <p class="phase-objective">Responde las 6 preguntas para reconstruir el ataque. Cada decisión correcta revela una evidencia.</p>
+      </header>
 
-    <div class="quiz-hud">
-      <span class="hud-item">✅ Aciertos: <strong id="hud-correct">0</strong></span>
-      <span class="hud-item">🔥 Racha: <strong id="hud-streak">0</strong></span>
-      <span class="hud-item">💡 Pistas: <strong id="hud-hints">0</strong></span>
-    </div>
-
-    <div class="progress-bar-container">
-      <div class="progress-bar" id="progress-bar"></div>
-    </div>
-
-    <div id="game-play-area"></div>
-  </div>
-
-  <!-- LABORATORIO -->
-  <div id="tab-laboratorio" class="tab-content">
-    <h2 class="section-title">🧪 Laboratorio</h2>
-    <p class="section-hint">Entrena tus habilidades con estos minijuegos y gana karma extra.</p>
-
-    <div class="lab-grid">
-      <div class="lab-panel">
-        <h3 class="lab-title">🎣 ¿Phishing o legítimo?</h3>
-        <p class="lab-desc">Clasifica cada correo de la bandeja de IUNAV. Busca dominios raros, urgencia y archivos sospechosos.</p>
-        <div id="phishing-game"></div>
+      <div class="quiz-hud">
+        <span class="hud-item">✅ Aciertos: <strong id="hud-correct">0</strong></span>
+        <span class="hud-item">🔥 Racha: <strong id="hud-streak">0</strong></span>
+        <span class="hud-item">💡 Pistas: <strong id="hud-hints">0</strong></span>
       </div>
 
-      <div class="lab-panel">
-        <h3 class="lab-title">🔐 Probador de contraseñas</h3>
-        <p class="lab-desc">Escribe una contraseña y mira cuánto tardaría un atacante en descifrarla. Nada de lo que escribas se guarda ni se envía.</p>
-        <div class="pw-field">
-          <input id="pw-input" type="password" autocomplete="off" spellcheck="false" placeholder="Prueba con iunav2024..." aria-label="Contraseña a evaluar">
-          <button class="icon-btn" id="pw-toggle" aria-label="Mostrar contraseña" title="Mostrar / ocultar">👁️</button>
-        </div>
-        <div class="pw-meter"><div class="pw-meter-fill" id="pw-meter-fill"></div></div>
-        <div class="pw-summary">
-          <span class="pw-level" id="pw-level">Sin evaluar</span>
-          <span class="pw-time" id="pw-time"></span>
-        </div>
-        <ul class="pw-checks" id="pw-checks">
-          <li data-check="length">Mínimo 12 caracteres</li>
-          <li data-check="lower">Letras minúsculas</li>
-          <li data-check="upper">Letras mayúsculas</li>
-          <li data-check="number">Números</li>
-          <li data-check="symbol">Símbolos (!@#$...)</li>
-          <li data-check="common">No es una contraseña común</li>
-        </ul>
-        <button class="btn-ghost" id="pw-generate">🎲 Generar contraseña segura</button>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
       </div>
-    </div>
+
+      <div id="game-play-area"></div>
+    </section>
+
+    <!-- FASE 2 · EVIDENCIAS -->
+    <section class="phase" id="phase-evidencias" aria-label="Fase 2: Evidencias">
+      <header class="phase-head">
+        <h2 class="phase-title">Fase 2 · Evidencias <span class="phase-badge" id="badge-evidencias" hidden></span></h2>
+        <p class="phase-objective">Analiza las 6 evidencias que desbloqueaste durante la investigación.</p>
+      </header>
+
+      <div class="progress-row">
+        <span class="progress-label" id="evidence-progress"></span>
+        <div class="progress-bar-container small"><div class="progress-bar" id="evidence-progress-bar"></div></div>
+      </div>
+      <div class="evidence-grid" id="evidence-grid"></div>
+    </section>
+
+    <!-- FASE 3 · RIESGOS -->
+    <section class="phase" id="phase-riesgos" aria-label="Fase 3: Riesgos">
+      <header class="phase-head">
+        <h2 class="phase-title">Fase 3 · Riesgos</h2>
+        <p class="phase-objective">Estudia los 7 riesgos de seguridad identificados en el incidente.</p>
+      </header>
+
+      <div class="filter-row" id="risk-filters">
+        <button class="chip active" data-level="all">Todos</button>
+        <button class="chip chip-critical" data-level="critical">Crítico</button>
+        <button class="chip chip-high" data-level="high">Alto</button>
+        <button class="chip chip-medium" data-level="medium">Medio</button>
+        <button class="chip chip-low" data-level="low">Bajo</button>
+        <span class="progress-label" id="risk-progress"></span>
+      </div>
+      <div class="risks-list" id="risks-list"></div>
+    </section>
+
+    <!-- FASE 4 · LABORATORIO -->
+    <section class="phase" id="phase-laboratorio" aria-label="Fase 4: Laboratorio">
+      <header class="phase-head">
+        <h2 class="phase-title">Fase 4 · Laboratorio</h2>
+        <p class="phase-objective">Supera los dos minijuegos de entrenamiento y gana karma extra.</p>
+      </header>
+
+      <div class="lab-grid">
+        <div class="lab-panel">
+          <h3 class="lab-title">🎣 ¿Phishing o legítimo?</h3>
+          <p class="lab-desc">Clasifica cada correo de la bandeja de IUNAV. Busca dominios raros, urgencia y archivos sospechosos.</p>
+          <div id="phishing-game"></div>
+        </div>
+
+        <div class="lab-panel">
+          <h3 class="lab-title">🔐 Probador de contraseñas</h3>
+          <p class="lab-desc">Escribe una contraseña y mira cuánto tardaría un atacante en descifrarla. Nada de lo que escribas se guarda ni se envía.</p>
+          <div class="pw-field">
+            <input id="pw-input" type="password" autocomplete="off" spellcheck="false" placeholder="Prueba con iunav2024..." aria-label="Contraseña a evaluar">
+            <button class="icon-btn" id="pw-toggle" aria-label="Mostrar contraseña" title="Mostrar / ocultar">👁️</button>
+          </div>
+          <div class="pw-meter"><div class="pw-meter-fill" id="pw-meter-fill"></div></div>
+          <div class="pw-summary">
+            <span class="pw-level" id="pw-level">Sin evaluar</span>
+            <span class="pw-time" id="pw-time"></span>
+          </div>
+          <ul class="pw-checks" id="pw-checks">
+            <li data-check="length">Mínimo 12 caracteres</li>
+            <li data-check="lower">Letras minúsculas</li>
+            <li data-check="upper">Letras mayúsculas</li>
+            <li data-check="number">Números</li>
+            <li data-check="symbol">Símbolos (!@#$...)</li>
+            <li data-check="common">No es una contraseña común</li>
+          </ul>
+          <button class="btn-ghost" id="pw-generate">🎲 Generar contraseña segura</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="phase-footer">
+    <span class="phase-status" id="phase-status"></span>
+    <button class="btn-primary continue-btn" id="phase-continue" disabled>Continuar →</button>
   </div>
 </section>
 
@@ -270,9 +285,6 @@
     <h2 class="modal-title" id="game-menu-title">☰ Menú de partida</h2>
     <button class="icon-btn" id="btn-close-menu" aria-label="Cerrar">✕</button>
   </div>
-  <h3 class="menu-heading">Cambiar investigador líder</h3>
-  <p class="menu-hint">Conservas tu progreso y karma. La nueva ventaja se aplica desde ahora.</p>
-  <div class="pick-grid" id="menu-character-pick"></div>
   <h3 class="menu-heading">Reiniciar partida</h3>
   <p class="menu-hint">Vuelve al inicio para elegir de nuevo y empezar desde cero. Se pierde el progreso actual (los logros y tu récord se conservan).</p>
   <div class="menu-actions">

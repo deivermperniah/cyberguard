@@ -22,6 +22,7 @@ CG.labPhishing = (() => {
 
     if (index >= emails.length) {
       const perfect = score === emails.length;
+      CG.state.labPhishingDone = true;
       box.innerHTML = `
         <div class="lab-summary">
           <div>${perfect ? '🏆' : '📬'}</div>
@@ -33,6 +34,7 @@ CG.labPhishing = (() => {
         CG.achievements.unlock('phish-hunter');
         CG.fx.confetti(40);
       }
+      CG.flow.refresh();
       return;
     }
 

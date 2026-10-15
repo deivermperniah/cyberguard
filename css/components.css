@@ -312,6 +312,7 @@ kbd {
   padding: 1.5rem;
   width: min(560px, calc(100% - 2rem));
   max-height: 85vh;
+  overflow: hidden;
   box-shadow: 0 0 60px rgba(0,245,255,0.15);
 }
 .modal[open] { animation: popIn 0.3s ease; }
@@ -329,6 +330,21 @@ kbd {
   font-size: 1.2rem;
   color: var(--neon-yellow);
 }
+
+.achievement-list {
+  max-height: 64vh;
+  overflow-y: auto;
+  padding-right: 0.6rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,245,255,0.3) transparent;
+}
+.achievement-list::-webkit-scrollbar { width: 8px; }
+.achievement-list::-webkit-scrollbar-track { background: transparent; }
+.achievement-list::-webkit-scrollbar-thumb {
+  background: rgba(0,245,255,0.25);
+  border-radius: 50px;
+}
+.achievement-list::-webkit-scrollbar-thumb:hover { background: rgba(0,245,255,0.45); }
 
 .achievement-list {
   list-style: none;

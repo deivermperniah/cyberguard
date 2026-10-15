@@ -71,6 +71,12 @@ CG.labPassword = (() => {
     }
 
     const { checks, level, seconds } = analyze(pw);
+
+    if (!CG.state.labPasswordUsed) {
+      CG.state.labPasswordUsed = true;
+      CG.flow.refresh();
+    }
+
     fill.style.width = (level + 1) * 20 + '%';
     fill.className = 'pw-meter-fill lvl-' + level;
     levelEl.className = 'pw-level lvl-' + level;

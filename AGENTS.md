@@ -16,8 +16,8 @@
 
 ## Estructura
 
-- `index.html`: marcado de las pantallas (intro, juego, final), el nav con pestañas (Historia, Protagonistas, Evidencias, Riesgos, Jugar, Laboratorio), los modales (logros y menú de partida) y el orden de carga de CSS/JS.
-- `css/`: `base.css` (variables, reset, animaciones), `layout.css` (pantallas, nav, pestañas, footer), `components.css` (botones, toasts, modal, chips), y un archivo por sección (`intro`, `sections`, `quiz`, `lab`, `final`).
+- `index.html`: marcado de las pantallas (briefing, juego, final), el nav superior, el stepper de fases (Investigar, Evidencias, Riesgos, Laboratorio), los modales (logros y menú de partida) y el orden de carga de CSS/JS.
+- `css/`: `base.css` (variables, reset, animaciones), `layout.css` (pantallas, nav, footer), `components.css` (botones, toasts, modal, chips), `flow.css` (stepper y fases), y un archivo por sección (`intro`, `sections`, `quiz`, `lab`, `final`).
 - `js/core/`: estado (`state.js`), karma, sonido (WebAudio), efectos (`fx.js`: toasts, confeti, shake), logros y `localStorage` (`storage.js`).
 - `js/data/`: contenido editable (personajes, preguntas, evidencias, riesgos, correos del laboratorio, logros).
 - `js/ui/`: un módulo por sección; cada uno expone `init`/`render` en el namespace global `CG`.
@@ -28,7 +28,7 @@
 - Todo el código cuelga del namespace global `window.CG`; no crear globales sueltas.
 - El contenido (textos, preguntas, evidencias...) vive en `js/data/`; la UI lo renderiza.
 - Si se agrega un archivo JS, añadirlo en `index.html` respetando el orden: `core` → `data` → `ui` → `main.js`.
-- Las pestañas se cambian con `CG.tabs.show('seccion')` o con atributos `data-tab` / `data-goto` en el HTML.
+- Las fases se muestran con `CG.flow.show('fase')`; el avance y el redibujado del stepper con `CG.flow.next()` y `CG.flow.refresh()`.
 - Sumar karma siempre con `CG.karma.add(cantidad, elementoOrigen)`.
 - Usar las variables CSS ya definidas (colores neón, `--border-glow`, etc.) en vez de colores sueltos.
 - Textos de la interfaz en español.
@@ -39,7 +39,7 @@ No agregar frameworks, build ni backend.
 
 ## Verificación
 
-- Abrir `index.html` en el navegador y comprobar las pestañas y las interacciones (quiz con temporizador, evidencias, riesgos, laboratorio, logros, pantalla final).
+- Abrir `index.html` en el navegador y comprobar el flujo por fases y las interacciones (quiz con temporizador, evidencias, riesgos, laboratorio, logros, pantalla final).
 - Revisar la consola del navegador sin errores.
 - Revisar el responsive en móvil.
 
