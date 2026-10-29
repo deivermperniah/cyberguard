@@ -2,6 +2,8 @@
 
 Narrativa interactiva de ciberseguridad: simula un ataque ransomware (LockBit 3.0) a la Universidad IUNAV y el trabajo del equipo para investigar y restaurar la seguridad.
 
+🔗 Demo: https://cyberguard-iunav.vercel.app/
+
 ## Qué se puede hacer
 
 - **Elegir investigador líder** (Deiver, Leo o Daira), cada uno con una ventaja distinta.
