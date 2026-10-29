@@ -41,3 +41,10 @@ No requiere instalación. Abre `index.html` en el navegador o sirve la carpeta c
 ```sh
 python3 -m http.server
 ```
+
+## Comandos
+
+| Comando | Acción |
+| :-- | :-- |
+| Abrir `index.html` | Juega sin instalar nada ni levantar servidor |
+| `python3 -m http.server` | Sirve la carpeta en `http://localhost:8000` |
